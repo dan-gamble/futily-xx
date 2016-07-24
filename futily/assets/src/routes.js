@@ -30,6 +30,19 @@ export function configRouter (router) {
           component: require('./components/leagues/Detail.vue')
         }
       }
+    },
+    '/clubs': {
+      name: 'clubs:list',
+      component: require('./components/clubs/Index.vue'),
+      subRoutes: {
+        '/': {
+          component: require('./components/clubs/List.vue')
+        },
+        ':id': {
+          name: 'clubs:detail',
+          component: require('./components/clubs/Detail.vue')
+        }
+      }
     }
   })
 }
