@@ -32,6 +32,8 @@ urlpatterns = [
     url(r"^sitemap.xml$", "django.contrib.sitemaps.views.index", {"sitemaps": registered_sitemaps}),
     url(r"^sitemap-(?P<section>.+)\.xml$", "django.contrib.sitemaps.views.sitemap", {"sitemaps": registered_sitemaps}),
 
+    url(r'^api/', include('futily.apps.api.urls', namespace='api')),
+
     # Basic robots.txt.
     url(r"^robots.txt$", TextTemplateView.as_view(template_name="robots.txt")),
 

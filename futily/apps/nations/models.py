@@ -19,6 +19,7 @@ class Nation(EaAsset, TimeStampedModel, models.Model):
     image_lg = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
+        ordering = ['name']
         verbose_name = 'Nation'
         verbose_name_plural = 'Nations'
 

@@ -140,6 +140,9 @@ INSTALLED_APPS = [
     "sorl.thumbnail",
     "compressor",
 
+    "corsheaders",
+    "rest_framework",
+
     "cms",
 
     "reversion",
@@ -195,6 +198,7 @@ THUMBNAIL_PRESERVE_FORMAT = True
 MIDDLEWARE_CLASSES = (
     # "cms.middleware.LocalisationMiddleware",
     # "redirects.middleware.RedirectFallbackMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -260,6 +264,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 # Namespace for cache keys, if using a process-shared cache.
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
 
 CACHE_MIDDLEWARE_KEY_PREFIX = "futily"
 
@@ -386,6 +393,16 @@ SOCIAL_AUTH_PIPELINE = DEFAULT_AUTH_PIPELINE + (
 )
 
 SILENCED_SYSTEM_CHECKS = []
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100
+}
 
 # GEOIP_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../geoip/"))
 

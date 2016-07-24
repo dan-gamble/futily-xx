@@ -4,40 +4,34 @@
     <div class="links">
       <a v-link="{ name: 'nations:list' }">Nations</a>
     </div>
-    <router-view></router-view>
+
+    <router-view class="view" transition="test" transition-mode="out-in" keep-alive></router-view>
   </div>
 </template>
 
 <script>
   import store from './vuex/store'
 
-  import Hello from './components/Hello'
-
   export default {
-    store,
-
-    components: {
-      Hello
-    }
+    store
   }
 </script>
 
 <style>
-  html {
-    height: 100%;
+  .view {
+    transition: all 0.5s ease;
   }
 
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+  .test-enter, .test-leave {
+    opacity: 0;
+    transform: translate3d(10px, 0, 0);
   }
 
   #app {
     color: #2c3e50;
-    margin-top: -100px;
     max-width: 600px;
+    margin-right: auto;
+    margin-left: auto;
     font-family: Source Sans Pro, Helvetica, sans-serif;
     text-align: center;
   }

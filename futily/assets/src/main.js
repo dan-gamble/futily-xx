@@ -1,8 +1,10 @@
 import Vue from 'vue'
+import VueResource from 'vue-resource'
 import VueRouter from 'vue-router'
 
 import { configRouter } from './routes'
 
+Vue.use(VueResource)
 Vue.use(VueRouter)
 
 /* eslint-disable no-new */
