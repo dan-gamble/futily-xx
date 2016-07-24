@@ -11,7 +11,6 @@ env/
 venv/
 .venv/
 bin/
-build/
 develop-eggs/
 dist/
 eggs/
@@ -65,5 +64,5 @@ node_modules/
 bower_components/
 webpack-stats.json
 
-*/static
+*/static/build
 !*/apps/*/static
