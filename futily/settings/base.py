@@ -150,14 +150,7 @@ INSTALLED_APPS = [
     "cms.apps.links",
     "cms.apps.media",
 
-    # "redirects",
-
-    # "futily.apps.careers",
-    # "futily.apps.faqs",
-    # "futily.apps.footer",
-    # "futily.apps.news",
-    # "futily.apps.people",
-    # "futily.apps.sections",
+    "futily.apps.nations",
     "futily.apps.site",
 
     'server_management',
