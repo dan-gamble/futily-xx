@@ -3,6 +3,7 @@
     <a v-link="{ path: '/' }"><img class="logo" src="./assets/logo.png"></a>
     <div class="links">
       <a v-link="{ name: 'nations:list' }">Nations</a>
+      <a v-link="{ name: 'leagues:list' }">Leagues</a>
     </div>
 
     <router-view class="view" transition="test" transition-mode="out-in" keep-alive></router-view>

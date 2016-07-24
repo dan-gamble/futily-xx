@@ -17,6 +17,19 @@ export function configRouter (router) {
           component: require('./components/nations/Detail.vue')
         }
       }
+    },
+    '/leagues': {
+      name: 'leagues:list',
+      component: require('./components/leagues/Index.vue'),
+      subRoutes: {
+        '/': {
+          component: require('./components/leagues/List.vue')
+        },
+        ':id': {
+          name: 'leagues:detail',
+          component: require('./components/leagues/Detail.vue')
+        }
+      }
     }
   })
 }
