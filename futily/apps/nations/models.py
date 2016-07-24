@@ -23,7 +23,7 @@ class Nation(EaAsset, TimeStampedModel, models.Model):
         verbose_name = 'Nation'
         verbose_name_plural = 'Nations'
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def save(self, *args, **kwargs):
