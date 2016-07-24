@@ -153,8 +153,9 @@ INSTALLED_APPS = [
     "cms.apps.links",
     "cms.apps.media",
 
-    "futily.apps.leagues",
     "futily.apps.nations",
+    "futily.apps.leagues",
+    "futily.apps.clubs",
     "futily.apps.site",
 
     'server_management',
