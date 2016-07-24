@@ -1,0 +1,85 @@
+{% load compress html pages site static %}
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="{% block meta_description %}{% meta_description %}{% endblock %}">
+    <meta name="robots" content="{% block meta_robots %}{% meta_robots %}{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="canonical" href="{% canonical_url %}"/>
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{% block og_title %}{% og_title %}{% endblock %}">
+    <meta property="og:url" content="{% canonical_url %}">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="{% block og_description %}{% og_description %}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% og_image %}{% endblock %}">
+
+    <title>{% block title %}{% title %}{% endblock %}</title>
+
+    <!-- Favicons -->
+    {% include 'base/_favicons.html' %}
+
+    {% block feeds %}{% endblock %}
+
+    {# Project #}
+    {% compress css %}
+      <link rel="stylesheet" href="{% static 'build/css/app.css' %}">
+    {% endcompress %}
+
+    {% block css %}{% endblock %}
+  </head>
+
+  <body class="{% block body_class %}{% endblock %}">
+    {% include 'base/_browser-update.html' %}
+    {% include 'base/_analytics.html' %}
+
+    {% block site %}
+      <div class="lyt-Site">
+        {% include 'base/_header.html' %}
+
+        <div class="lyt-Content_Outer">
+          {% block content_above %}{% endblock %}
+
+          {% block content_outer %}
+            <div class="lyt-Content {% block content_class %}{% endblock %}">
+              {% block content %}
+                <main class="lyt-Main {% block main_class %}{% endblock %}">
+                  {% block main %}{% endblock %}
+                </main>
+
+                <aside class="lyt-Aside">
+                  {% block aside %}{% endblock %}
+                </aside>
+              {% endblock %}
+            </div>
+          {% endblock %}
+
+          {% block content_below %}{% endblock %}
+        </div>
+
+        {% include 'base/_footer.html' %}
+      </div>
+    {% endblock %}
+
+    {% compress js %}
+      {% block compressed_js_first %}{% endblock %}
+
+      {# Get the site navigation as JSON #}
+      {% navigation_json pages.homepage.navigation as nav %}
+      <script>
+        // Set the navigation so our Vue file can access it
+        window.navigationData = {{ nav | safe }};
+      </script>
+
+      {% render_bundle 'shared' 'js' %}
+      {% render_bundle 'app' 'js' %}
+      <script src="/static/flexible-images/flexible-images.js"></script>
+
+      {% block compressed_js_last %}{% endblock %}
+    {% endcompress %}
+  </body>
+</html>
