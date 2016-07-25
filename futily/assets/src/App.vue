@@ -30,6 +30,14 @@
     transform: translate3d(10px, 0, 0);
   }
 
+  .detail {
+    transition: all 0.5s ease;
+  }
+
+  .loading {
+    opacity: 0.4;
+  }
+
   #app {
     color: #2c3e50;
     max-width: 600px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="players" :class="{ 'loading': loading }">
+  <div class="players detail" :class="{ 'loading': loading }">
     <hr>
 
     <div class="pagination">
@@ -30,20 +30,10 @@
 
     route: {
       data () {
-        this.$http.get('/api/players.json').then((response) => {
+        this.$http.get('/api/players').then((response) => {
           this.assignData(response.json(), this.app)
         })
       }
     }
   }
 </script>
-
-<style>
-  .players {
-    transition: all 0.5s ease;
-  }
-
-  .loading {
-    opacity: 0.4;
-  }
-</style>

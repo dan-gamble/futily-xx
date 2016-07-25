@@ -1,5 +1,12 @@
 <template>
-  <div class="leagues">
+  <div class="leagues detail" :class="{ 'loading': loading }">
+    <hr>
+
+    <div class="pagination">
+      <button type="button" @click="paginate('prev')" :disabled="!pages.prev">Prev</button>
+      <button type="button" @click="paginate('next')" :disabled="!pages.next">Next</button>
+    </div>
+    
     <hr>
 
     <div v-for="league in leagues">
@@ -9,25 +16,22 @@
 </template>
 
 <script>
+  import ListMixin from '../../mixins/List'
+
   export default {
+    mixins: [ListMixin],
+
     data () {
       return {
-        leagues: [],
-        pages: {
-          next: '',
-          prev: ''
-        }
+        app: 'leagues',
+        leagues: []
       }
     },
 
     route: {
       data () {
-        this.$http.get('/api/leagues/').then((response) => {
-          const res = response.json()
-
-          this.leagues = res.results
-          this.pages.next = res.next
-          this.pages.prev = res.prev
+        this.$http.get('/api/leagues').then((response) => {
+          this.assignData(response.json(), this.app)
         })
       }
     }
