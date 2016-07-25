@@ -9,10 +9,20 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import generic
 
+from rest_framework import routers
+
+from .apps.api.views import ClubViewset, LeagueViewset, NationViewset, PlayerViewset
+
 # from .apps.sections.models import sections_js
 from .utils.views import FrontendView
 
 admin.autodiscover()
+
+router = routers.DefaultRouter()
+router.register(r'nations', NationViewset)
+router.register(r'leagues', LeagueViewset)
+router.register(r'clubs', ClubViewset)
+router.register(r'players', PlayerViewset)
 
 
 urlpatterns = [
@@ -32,7 +42,7 @@ urlpatterns = [
     url(r"^sitemap.xml$", "django.contrib.sitemaps.views.index", {"sitemaps": registered_sitemaps}),
     url(r"^sitemap-(?P<section>.+)\.xml$", "django.contrib.sitemaps.views.sitemap", {"sitemaps": registered_sitemaps}),
 
-    url(r'^api/', include('futily.apps.api.urls', namespace='api')),
+    url(r'^api/', include(router.urls)),
 
     # Basic robots.txt.
     url(r"^robots.txt$", TextTemplateView.as_view(template_name="robots.txt")),
