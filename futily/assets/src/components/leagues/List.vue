@@ -22,10 +22,12 @@
 
     route: {
       data () {
-        this.$http.get('/api/leagues').then((response) => {
-          this.leagues = response.data.results
-          this.pages.next = response.data.next
-          this.pages.prev = response.data.prev
+        this.$http.get('/api/leagues/').then((response) => {
+          const res = response.json()
+
+          this.leagues = res.results
+          this.pages.next = res.next
+          this.pages.prev = res.prev
         })
       }
     }

@@ -23,9 +23,11 @@
     route: {
       data () {
         this.$http.get('/api/nations').then((response) => {
-          this.nations = response.data.results
-          this.pages.next = response.data.next
-          this.pages.prev = response.data.prev
+          const res = response.json()
+
+          this.nations = res.results
+          this.pages.next = res.next
+          this.pages.prev = res.prev
         })
       }
     }

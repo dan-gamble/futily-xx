@@ -18,7 +18,7 @@
     route: {
       data () {
         this.$http.get(`/api/nations/${this.$route.params.id}`).then((response) => {
-          this.nation = response.data
+          this.nation = response.json()
         })
       }
     }

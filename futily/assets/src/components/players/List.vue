@@ -1,9 +1,9 @@
 <template>
-  <div class="clubs">
+  <div class="players">
     <hr>
 
-    <div v-for="club in clubs">
-      <a v-link="{ name: 'clubs:detail', params: { id: club.slug } }">{{ club.name }}</a>
+    <div v-for="player in players">
+      <a v-link="{ name: 'players:detail', params: { id: player.slug } }">{{ player.common_name }} ({{ player.overall_rating }})</a>
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
   export default {
     data () {
       return {
-        clubs: [],
+        players: [],
         pages: {
           next: '',
           prev: ''
@@ -22,10 +22,10 @@
 
     route: {
       data () {
-        this.$http.get('/api/clubs/').then((response) => {
+        this.$http.get('/api/players.json').then((response) => {
           const res = response.json()
 
-          this.clubs = res.results
+          this.players = res.results
           this.pages.next = res.next
           this.pages.prev = res.prev
         })

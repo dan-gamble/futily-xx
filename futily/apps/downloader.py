@@ -423,6 +423,7 @@ class Downloader(object):
                 player.slug = slugify(
                     '{}-{}'.format(player.id, player.common_name)
                 )
+                player.save()
                 created_players.append(created)
 
                 print (u'Created Player: {}'.format(player))

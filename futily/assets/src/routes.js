@@ -43,6 +43,19 @@ export function configRouter (router) {
           component: require('./components/clubs/Detail.vue')
         }
       }
+    },
+    '/players': {
+      name: 'players:list',
+      component: require('./components/players/Index.vue'),
+      subRoutes: {
+        '/': {
+          component: require('./components/players/List.vue')
+        },
+        ':id': {
+          name: 'players:detail',
+          component: require('./components/players/Detail.vue')
+        }
+      }
     }
   })
 }

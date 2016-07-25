@@ -15,7 +15,7 @@
     route: {
       data () {
         this.$http.get(`/api/clubs/${this.$route.params.id}`).then((response) => {
-          this.club = response.data
+          this.club = response.json()
         })
       }
     }

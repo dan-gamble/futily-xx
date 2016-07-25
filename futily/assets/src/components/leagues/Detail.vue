@@ -15,7 +15,7 @@
     route: {
       data () {
         this.$http.get(`/api/leagues/${this.$route.params.id}`).then((response) => {
-          this.league = response.data
+          this.league = response.json()
         })
       }
     }

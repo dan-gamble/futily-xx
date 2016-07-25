@@ -5,6 +5,7 @@
       <a v-link="{ name: 'nations:list' }">Nations</a>
       <a v-link="{ name: 'leagues:list' }">Leagues</a>
       <a v-link="{ name: 'clubs:list' }">Clubs</a>
+      <a v-link="{ name: 'players:list' }">Players</a>
     </div>
 
     <router-view class="view" transition="test" transition-mode="out-in" keep-alive></router-view>
