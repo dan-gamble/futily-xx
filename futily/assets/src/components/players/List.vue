@@ -1,5 +1,12 @@
 <template>
-  <div class="players">
+  <div class="players" :class="{ 'loading': loading }">
+    <hr>
+
+    <div class="pagination">
+      <button type="button" @click="paginate('prev')" :disabled="!pages.prev">Prev</button>
+      <button type="button" @click="paginate('next')" :disabled="!pages.next">Next</button>
+    </div>
+
     <hr>
 
     <div v-for="player in players">
@@ -9,27 +16,34 @@
 </template>
 
 <script>
+  import ListMixin from '../../mixins/List'
+
   export default {
+    mixins: [ListMixin],
+
     data () {
       return {
-        players: [],
-        pages: {
-          next: '',
-          prev: ''
-        }
+        app: 'players',
+        players: []
       }
     },
 
     route: {
       data () {
         this.$http.get('/api/players.json').then((response) => {
-          const res = response.json()
-
-          this.players = res.results
-          this.pages.next = res.next
-          this.pages.prev = res.prev
+          this.assignData(response.json(), this.app)
         })
       }
     }
   }
 </script>
+
+<style>
+  .players {
+    transition: all 0.5s ease;
+  }
+
+  .loading {
+    opacity: 0.4;
+  }
+</style>

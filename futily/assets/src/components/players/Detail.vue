@@ -1,9 +1,9 @@
 <template>
   <div class="player">
     {{ player.common_name }} ({{ player.overall_rating }})
-    <img alt="" src="{{ player.image_sm }}">
-    <img alt="" src="{{ player.image_md }}">
-    <img alt="" src="{{ player.image_lg }}">
+    <img alt="" :src="player.image_sm">
+    <img alt="" :src="player.image_md">
+    <img alt="" :src="player.image_lg">
   </div>
 </template>
 
@@ -18,7 +18,6 @@
     route: {
       data () {
         this.$http.get(`/api/players/${this.$route.params.id}`).then((response) => {
-          console.log(response, response.json())
           this.player = response.json()
         })
       }
