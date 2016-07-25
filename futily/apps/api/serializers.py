@@ -12,26 +12,34 @@ class NationSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class LeagueSerializer(serializers.HyperlinkedModelSerializer):
+    nation = NationSerializer()
+
     class Meta:
         model = League
-        extra_kwargs = {
-            'nation': {'lookup_field': 'slug'}
-        }
+        # extra_kwargs = {
+        #     'nation': {'lookup_field': 'slug'}
+        # }
 
 
 class ClubSerializer(serializers.HyperlinkedModelSerializer):
+    league = LeagueSerializer()
+
     class Meta:
         model = Club
-        extra_kwargs = {
-            'league': {'lookup_field': 'slug'}
-        }
+        # extra_kwargs = {
+        #     'league': {'lookup_field': 'slug'}
+        # }
 
 
 class PlayerSerializer(serializers.HyperlinkedModelSerializer):
+    nation = NationSerializer()
+    league = LeagueSerializer()
+    club = ClubSerializer()
+
     class Meta:
         model = Player
-        extra_kwargs = {
-            'nation': {'lookup_field': 'slug'},
-            'league': {'lookup_field': 'slug'},
-            'club': {'lookup_field': 'slug'}
-        }
+        # extra_kwargs = {
+        #     'nation': {'lookup_field': 'slug'},
+        #     'league': {'lookup_field': 'slug'},
+        #     'club': {'lookup_field': 'slug'}
+        # }
