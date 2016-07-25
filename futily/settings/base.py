@@ -145,9 +145,9 @@ INSTALLED_APPS = [
 
     "cms",
 
-    "reversion",
+    # "reversion",
     "historylinks",
-    "watson",
+    # "watson",
 
     "cms.apps.pages",
     "cms.apps.links",
@@ -156,6 +156,7 @@ INSTALLED_APPS = [
     "futily.apps.nations",
     "futily.apps.leagues",
     "futily.apps.clubs",
+    "futily.apps.players",
     "futily.apps.site",
 
     'server_management',
