@@ -5,27 +5,37 @@ export default {
       loading: false,
       pages: {
         next: null,
-        prev: null
+        prev: null,
+        current: 1,
+        total: null
       }
     }
   },
 
   methods: {
-    assignData (data, app) {
-      this.$set(app, data.results)
+    assignData (data) {
+      const { next, prev, current, total, results } = data
 
-      this.pages.next = data.next
-      this.pages.prev = data.previous
+      Object.assign(this, { items: results })
+      Object.assign(this.pages, { next, prev, current, total })
 
       this.loading = false
     },
 
+    fetchData (url) {
+      this.loading = true
+
+      this.$http.get(url).then((response) => {
+        this.assignData(response.json(), this.app)
+      })
+    },
+
     paginate (direction) {
-      if (this.pages[direction] === null) return
+      if (this.pages[ direction ] === null) return
 
       this.loading = true
 
-      this.$http.get(this.pages[direction]).then((response) => {
+      this.$http.get(this.pages[ direction ]).then((response) => {
         this.assignData(response.json(), this.app)
       })
     }

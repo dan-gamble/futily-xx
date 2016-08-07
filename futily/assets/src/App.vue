@@ -1,24 +1,19 @@
 <template>
   <div id="app">
-    <a v-link="{ path: '/' }"><img class="logo" src="./assets/logo.png"></a>
+    <router-link :to="{ path: '/' }">
+      <img class="logo" src="./assets/logo.png">
+    </router-link>
+
     <div class="links">
-      <a v-link="{ name: 'nations:list' }">Nations</a>
-      <a v-link="{ name: 'leagues:list' }">Leagues</a>
-      <a v-link="{ name: 'clubs:list' }">Clubs</a>
-      <a v-link="{ name: 'players:list' }">Players</a>
+      <router-link :to="{ name: 'nations:list' }">Nations</router-link>
+      <router-link :to="{ name: 'leagues:list' }">Leagues</router-link>
+      <router-link :to="{ name: 'clubs:list' }">Clubs</router-link>
+      <router-link :to="{ name: 'players:list' }">Players</router-link>
     </div>
 
-    <router-view class="view" transition="test" transition-mode="out-in" keep-alive></router-view>
+    <router-view class="view"></router-view>
   </div>
 </template>
-
-<script>
-  import store from './vuex/store'
-
-  export default {
-    store
-  }
-</script>
 
 <style>
   .view {
@@ -47,7 +42,7 @@
     text-align: center;
   }
 
-  #app a {
+  a {
     color: #42b983;
     text-decoration: none;
   }
@@ -55,5 +50,9 @@
   .logo {
     width: 100px;
     height: 100px
+  }
+
+  .link-active {
+    text-decoration: underline;
   }
 </style>

@@ -3,37 +3,38 @@
     <hr>
 
     <div class="pagination">
+      {{ pages.current }} / {{ pages.total }}
       <button type="button" @click="paginate('prev')" :disabled="!pages.prev">Prev</button>
       <button type="button" @click="paginate('next')" :disabled="!pages.next">Next</button>
     </div>
 
     <hr>
 
-    <div v-for="nation in nations">
-      <a v-link="{ name: 'nations:detail', params: { id: nation.slug } }">{{ nation.name }}</a>
+    <div v-for="nation in items">
+      <router-link :to="{ name: 'nations:detail', params: { id: nation.slug } }">
+        {{ nation.name }}
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
   import ListMixin from '../../mixins/List'
+  import { NATIONS_API_URL } from '../../utils/constants'
 
   export default {
+    name: 'NationsList',
     mixins: [ListMixin],
 
     data () {
       return {
         app: 'nations',
-        nations: []
+        items: []
       }
     },
 
-    route: {
-      data () {
-        this.$http.get('/api/nations').then((response) => {
-          this.assignData(response.json(), this.app)
-        })
-      }
+    created () {
+      this.fetchData(NATIONS_API_URL)
     }
   }
 </script>

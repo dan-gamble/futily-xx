@@ -5,8 +5,10 @@ import app from './modules/app'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({ // eslint-disable-line new-cap
+const store = new Vuex.Store({ // eslint-disable-line new-cap
   modules: {
     app
   }
 })
+
+export default store

@@ -9,18 +9,22 @@
 
 <script>
   export default {
+    name: 'NationsDetail',
     data () {
       return {
+        loading: false,
         nation: {}
       }
     },
 
-    route: {
-      data () {
-        this.$http.get(`/api/nations/${this.$route.params.id}`).then((response) => {
-          this.nation = response.json()
-        })
-      }
+    mounted () {
+      this.loading = true
+
+      this.$http.get(`/api/nations/${this.$route.params.id}`).then((response) => {
+        this.nation = response.json()
+
+        this.loading = false
+      })
     }
   }
 </script>

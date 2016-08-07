@@ -404,7 +404,7 @@ REST_FRAMEWORK = {
     'URL_FIELD_NAME': 'slug',
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'futily.utils.pagination.CustomPagination',
     'PAGE_SIZE': 25
 }
 
