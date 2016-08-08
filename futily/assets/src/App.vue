@@ -11,7 +11,9 @@
       <router-link :to="{ name: 'players:list' }">Players</router-link>
     </div>
 
-    <router-view class="view"></router-view>
+    <transition name="view" mode="out-in">
+      <router-view class="view"></router-view>
+    </transition>
   </div>
 </template>
 
@@ -20,17 +22,12 @@
     transition: all 0.5s ease;
   }
 
-  .test-enter, .test-leave {
+  .view {
+    transition: all .35s ease;
+  }
+
+  .view-enter, .view-leave-active {
     opacity: 0;
-    transform: translate3d(10px, 0, 0);
-  }
-
-  .detail {
-    transition: all 0.5s ease;
-  }
-
-  .loading {
-    opacity: 0.4;
   }
 
   #app {

@@ -38,6 +38,12 @@ export default {
       this.$http.get(this.pages[ direction ]).then((response) => {
         this.assignData(response.json(), this.app)
       })
+    },
+    nextPage () {
+      this.paginate('next')
+    },
+    prevPage () {
+      this.paginate('prev')
     }
   }
 }
