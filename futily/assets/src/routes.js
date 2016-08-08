@@ -40,9 +40,9 @@ export const router = new VueRouter({
         { path: ':id', name: 'leagues:detail', component: require('./components/leagues/Detail.vue') }
       ]
     },
-    { path: '/clubs', name: 'clubs:list', component: require('./components/clubs/Index.vue'),
+    { path: '/clubs', component: require('./components/clubs/Index.vue'),
       children: [
-        { path: '/', component: require('./components/clubs/List.vue') },
+        { path: '', name: 'clubs:list', component: require('./components/clubs/List.vue') },
         { path: ':id', name: 'clubs:detail', component: require('./components/clubs/Detail.vue') }
       ]
     },

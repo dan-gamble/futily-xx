@@ -6,18 +6,17 @@
 
 <script>
   export default {
+    name: 'ClubsDetail',
     data () {
       return {
         club: {}
       }
     },
 
-    route: {
-      data () {
-        this.$http.get(`/api/clubs/${this.$route.params.id}`).then((response) => {
-          this.club = response.json()
-        })
-      }
+    mounted () {
+      this.$http.get(`/api/clubs/${this.$route.params.id}`).then((response) => {
+        this.club = response.json()
+      })
     }
   }
 </script>

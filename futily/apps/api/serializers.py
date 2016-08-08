@@ -22,6 +22,7 @@ class LeagueSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ClubSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.ReadOnlyField()
     league = LeagueSerializer()
 
     class Meta:
