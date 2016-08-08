@@ -30,6 +30,7 @@ class ClubSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PlayerSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.ReadOnlyField()
     nation = NationSerializer()
     league = LeagueSerializer()
     club = ClubSerializer()

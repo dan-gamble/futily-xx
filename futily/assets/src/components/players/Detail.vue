@@ -15,12 +15,10 @@
       }
     },
 
-    route: {
-      data () {
-        this.$http.get(`/api/players/${this.$route.params.id}`).then((response) => {
-          this.player = response.json()
-        })
-      }
+    mounted () {
+      this.$http.get(`/api/players/${this.$route.params.id}`).then((response) => {
+        this.player = response.json()
+      })
     }
   }
 </script>

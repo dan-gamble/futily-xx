@@ -46,9 +46,9 @@ export const router = new VueRouter({
         { path: ':id', name: 'clubs:detail', component: require('./components/clubs/Detail.vue') }
       ]
     },
-    { path: '/players', name: 'players:list', component: require('./components/players/Index.vue'),
+    { path: '/players', component: require('./components/players/Index.vue'),
       children: [
-        { path: '/', component: require('./components/players/List.vue') },
+        { path: '', name: 'players:list', component: require('./components/players/List.vue') },
         { path: ':id', name: 'players:detail', component: require('./components/players/Detail.vue') }
       ]
     }
