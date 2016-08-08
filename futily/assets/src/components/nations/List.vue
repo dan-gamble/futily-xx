@@ -43,7 +43,6 @@
 
     data () {
       return {
-        app: 'nations',
         items: []
       }
     },

@@ -34,9 +34,9 @@ export const router = new VueRouter({
         { path: ':id', name: 'nations:detail', component: require('./components/nations/Detail.vue') }
       ]
     },
-    { path: '/leagues', name: 'leagues:list', component: require('./components/leagues/Index.vue'),
+    { path: '/leagues', component: require('./components/leagues/Index.vue'),
       children: [
-        { path: '/', component: require('./components/leagues/List.vue') },
+        { path: '', name: 'leagues:list', component: require('./components/leagues/List.vue') },
         { path: ':id', name: 'leagues:detail', component: require('./components/leagues/Detail.vue') }
       ]
     },
