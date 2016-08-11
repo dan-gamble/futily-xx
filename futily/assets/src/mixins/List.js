@@ -24,12 +24,16 @@ export default {
   },
 
   computed: {
+    filtered () {
+      return this.searchQuery.length
+    },
+
     items () {
       /**
        * If we have filtered objects and a current searchQuery return the filtered items, else fall
        * back to the objects we had before filtering
        */
-      if (this.objects.filtered.length > 0 && this.searchQuery.length) {
+      if (this.filtered && this.objects.filtered.length > 0) {
         return this.objects.filtered
       } else {
         return this.objects.base
@@ -51,7 +55,7 @@ export default {
   },
 
   methods: {
-    assignData (data, filtered = false) {
+    assignData (data) {
       /**
        * Assign the data we receive from the API to our component, if the data being sent is based
        * on a search we need to assign the items to a different key
@@ -64,7 +68,7 @@ export default {
       } = data
       /* eslint-enable */
 
-      const key = filtered ? 'filtered' : 'base'
+      const key = this.filtered ? 'filtered' : 'base'
       Object.assign(this.objects, { [key]: results })
       Object.assign(this.pages, { next, prev, current, total })
       Object.assign(this, { orderOptions, orderDefault: orderByDefault })
@@ -72,14 +76,21 @@ export default {
       this.loading = false
     },
 
-    fetchData (url = this.apiUrl, kwargs = { options: {}, filtered: false }) {
+    fetchData (url = this.apiUrl) {
       /**
        * Grab our data from the API
        */
       this.loading = true
 
-      this.$http.get(url, kwargs.options).then((response) => {
-        this.assignData(response.json(), kwargs.filtered)
+      const options = {
+        params: {
+          order: this.order,
+          query: this.searchQuery
+        }
+      }
+
+      this.$http.get(url, options).then((response) => {
+        this.assignData(response.json())
       })
     },
 
@@ -105,10 +116,8 @@ export default {
     },
 
     orderItems () {
-      console.log(this.order)
-
       /* eslint-disable no-undef */
-      this.fetchData(this.apiUrl, { options: { params: { order: this.order } } })
+      this.fetchData(this.apiUrl)
       /* eslint-enable */
     },
 
@@ -117,7 +126,7 @@ export default {
        * API call based on our search, throttled to prevent excess calls to the backend
        */
       /* eslint-disable no-undef */
-      this.fetchData(this.apiUrl, { options: { params: { query: this.searchQuery } }, filtered: true })
+      this.fetchData(this.apiUrl)
       /* eslint-enable */
     }, 300)
   },
