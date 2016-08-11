@@ -2,10 +2,10 @@ from django.core import urlresolvers
 from django.db import models
 from django.utils.text import slugify
 
-from futily.apps.models import EaAsset, TimeStampedModel
+from futily.apps.models import AverageRatingModel, EaAsset, TimeStampedModel
 
 
-class Nation(EaAsset, TimeStampedModel, models.Model):
+class Nation(EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
     cached_url = models.CharField(max_length=1000, null=True, blank=True)
 
     name = models.CharField(max_length=100)

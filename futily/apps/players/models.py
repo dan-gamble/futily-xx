@@ -47,9 +47,9 @@ class Player(EaAsset, TimeStampedModel, models.Model):
     common_name = models.CharField(max_length=100)
     slug = models.SlugField(blank=True, null=True)
 
-    club = models.ForeignKey('clubs.Club', related_name='club', blank=True, null=True)
-    league = models.ForeignKey('leagues.League', related_name='league', blank=True, null=True)
-    nation = models.ForeignKey('nations.Nation', related_name='nation', blank=True, null=True)
+    club = models.ForeignKey('clubs.Club', blank=True, null=True)
+    league = models.ForeignKey('leagues.League', blank=True, null=True)
+    nation = models.ForeignKey('nations.Nation', blank=True, null=True)
 
     image = models.CharField(max_length=255, blank=True, null=True)
     image_sm = models.CharField(max_length=255, blank=True, null=True)

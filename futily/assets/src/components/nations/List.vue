@@ -14,8 +14,13 @@
                       @leave="leave">
       <div v-for="(nation, index) in items" :key="nation.id" :data-index="index">
         <router-link :to="{ name: 'nations:detail', params: { id: nation.slug } }">
+          <img alt="" :src="nation.image_sm">
           {{ nation.name }}
         </router-link>
+
+        -
+
+        {{ nation.average_rating }}
       </div>
     </transition-group>
 

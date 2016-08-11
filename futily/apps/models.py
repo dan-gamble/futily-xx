@@ -15,6 +15,13 @@ class EaAsset(models.Model):
         abstract = True
 
 
+class AverageRatingModel(models.Model):
+    average_rating = models.FloatField(default=0)
+
+    class Meta:
+        abstract = True
+
+
 class TimeStampedModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
