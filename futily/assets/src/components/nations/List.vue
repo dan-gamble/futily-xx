@@ -4,9 +4,20 @@
 
     <pagination :config="pages" :next="nextPage" :prev="prevPage"></pagination>
 
-    <div class="search">
-      Search: <input type="search" placeholder="Search" v-model="searchQuery">
-    </div>
+    <form class="search">
+      <div>
+        Search: <input type="search" placeholder="Search" v-model="searchQuery">
+      </div>
+
+      <div>
+        Sort by:
+        <select v-model="order">
+          <option :value="option" v-for="option in orderOptions">
+            {{ option | capFirstNormalize }}
+          </option>
+        </select>
+      </div>
+    </form>
 
     <hr>
 
@@ -25,7 +36,7 @@
           <img alt="" :src="nation.image_sm">
           {{ nation.name }}
         </router-link>
-        {{ nation.average_rating }} Average - {{ nation.total_players }} Players - {{ nation.total_bronze }} Bronze - {{ nation.total_silver }} Silver - {{ nation.total_gold }} Gold - {{ nation.total_informs }} Informs - {{ nation.total_special }} Special
+        {{ nation.average_rating }} Average - {{ nation.total_players }} Players - {{ nation.total_bronze }} Bronze - {{ nation.total_silver }} Silver - {{ nation.total_gold }} Gold - {{ nation.total_inform }} Informs - {{ nation.total_special }} Special
       </div>
     </transition-group>
 

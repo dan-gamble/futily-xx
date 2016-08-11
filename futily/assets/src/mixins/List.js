@@ -15,6 +15,9 @@ export default {
         current: 1, // Pagination => Current page
         total: null // Pagination => Total pages
       },
+      order: '',
+      orderDefault: '',
+      orderOptions: [],
       searchQuery: '', // The search query
       searchQueryThrottling: false // Are we in the search throttle
     }
@@ -35,11 +38,15 @@ export default {
   },
 
   watch: {
+    order () {
+      this.orderItems()
+    },
+
     searchQuery () {
       /**
        * Grab items from the API that match our search
        */
-      this.searchForItems(this.apiUrl)
+      this.searchItems(this.apiUrl)
     }
   },
 
@@ -49,23 +56,30 @@ export default {
        * Assign the data we receive from the API to our component, if the data being sent is based
        * on a search we need to assign the items to a different key
        */
-      const { next, prev, current, total, results } = data
+      /* eslint-disable camelcase, no-undef */
+      const {
+        next, prev, current, total, results,
+        order_options: orderOptions,
+        default_order_by: orderByDefault
+      } = data
+      /* eslint-enable */
 
       const key = filtered ? 'filtered' : 'base'
       Object.assign(this.objects, { [key]: results })
       Object.assign(this.pages, { next, prev, current, total })
+      Object.assign(this, { orderOptions, orderDefault: orderByDefault })
 
       this.loading = false
     },
 
-    fetchData (url) {
+    fetchData (url = this.apiUrl, kwargs = { options: {}, filtered: false }) {
       /**
        * Grab our data from the API
        */
       this.loading = true
 
-      this.$http.get(url).then((response) => {
-        this.assignData(response.json())
+      this.$http.get(url, kwargs.options).then((response) => {
+        this.assignData(response.json(), kwargs.filtered)
       })
     },
 
@@ -90,13 +104,31 @@ export default {
       this.paginate('prev')
     },
 
-    searchForItems: _.throttle(function () {
+    orderItems () {
+      console.log(this.order)
+
+      /* eslint-disable no-undef */
+      this.fetchData(this.apiUrl, { options: { params: { order: this.order } } })
+      /* eslint-enable */
+    },
+
+    searchItems: _.throttle(function () {
       /**
        * API call based on our search, throttled to prevent excess calls to the backend
        */
-      this.$http.get(this.apiUrl, { params: { query: this.searchQuery } }).then((response) => {
-        this.assignData(response.json(), true)
-      })
+      /* eslint-disable no-undef */
+      this.fetchData(this.apiUrl, { options: { params: { query: this.searchQuery } }, filtered: true })
+      /* eslint-enable */
     }, 300)
+  },
+
+  filters: {
+    capFirstNormalize (val) {
+      let string = val
+      string = string.charAt(0).toUpperCase() + string.slice(1)
+      string = string.replace('_', ' ')
+
+      return string
+    }
   }
 }

@@ -12,7 +12,6 @@ class NationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Nation
 
-
 class LeagueSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
     nation = NationSerializer()

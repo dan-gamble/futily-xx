@@ -8,7 +8,7 @@ class EaAsset(models.Model):
     total_bronze = models.PositiveIntegerField(default=0)
     total_silver = models.PositiveIntegerField(default=0)
     total_gold = models.PositiveIntegerField(default=0)
-    total_informs = models.PositiveIntegerField(default=0)
+    total_inform = models.PositiveIntegerField(default=0)
     total_special = models.PositiveIntegerField(default=0)
 
     class Meta:

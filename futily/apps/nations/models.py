@@ -19,7 +19,7 @@ class Nation(EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
     image_lg = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['-total_players', '-average_rating', 'name']
         verbose_name = 'Nation'
         verbose_name_plural = 'Nations'
 
