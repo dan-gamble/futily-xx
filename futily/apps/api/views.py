@@ -13,6 +13,19 @@ class NationViewset(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'slug'
     serializer_class = NationSerializer
 
+    def get_queryset(self):
+        qs = super(NationViewset, self).get_queryset()
+        query = self.request.query_params.get('query', None)
+
+        print query, self.request
+
+        if query:
+            qs = qs.filter(
+                name__icontains=query
+            )
+
+        return qs
+
 
 class LeagueViewset(viewsets.ReadOnlyModelViewSet):
     queryset = League.objects.all()

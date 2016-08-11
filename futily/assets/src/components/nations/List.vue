@@ -4,23 +4,28 @@
 
     <pagination :config="pages" :next="nextPage" :prev="prevPage"></pagination>
 
+    <div class="search">
+      Search: <input type="search" placeholder="Search" v-model="searchQuery">
+    </div>
+
     <hr>
 
+    <div v-if="searchQuery.length && !objects.filtered.length">
+      There are no search results
+    </div>
     <transition-group name="list"
                       tag="div"
                       :css="false"
                       @before-enter="beforeEnter"
                       @enter="enter"
-                      @leave="leave">
+                      @leave="leave"
+                      v-else>
       <div v-for="(nation, index) in items" :key="nation.id" :data-index="index">
         <router-link :to="{ name: 'nations:detail', params: { id: nation.slug } }">
           <img alt="" :src="nation.image_sm">
           {{ nation.name }}
         </router-link>
-
-        -
-
-        {{ nation.average_rating }}
+        {{ nation.average_rating }} Average - {{ nation.total_players }} Players - {{ nation.total_bronze }} Bronze - {{ nation.total_silver }} Silver - {{ nation.total_gold }} Gold - {{ nation.total_informs }} Informs - {{ nation.total_special }} Special
       </div>
     </transition-group>
 
@@ -48,12 +53,12 @@
 
     data () {
       return {
-        items: []
+        apiUrl: NATIONS_API_URL
       }
     },
 
     created () {
-      let url = NATIONS_API_URL
+      let url = this.apiUrl
 
       if (_.has(this.$route.query, 'page')) {
         url += `?page=${this.$route.query.page}`
@@ -64,7 +69,7 @@
 
     watch: {
       '$route' () {
-        this.fetchData(NATIONS_API_URL)
+        this.fetchData(this.apiUrl)
       }
     },
 
@@ -79,9 +84,9 @@
 
         setTimeout(function () {
           Velocity(
-              el,
-              { opacity: 1, height: '1.6em' },
-              { complete: done }
+            el,
+            { opacity: 1, height: '1.6em' },
+            { complete: done }
           )
         }, delay)
       },
@@ -91,9 +96,9 @@
 
         setTimeout(function () {
           Velocity(
-              el,
-              { opacity: 0, height: 0 },
-              { complete: done }
+            el,
+            { opacity: 0, height: 0 },
+            { complete: done }
           )
         }, delay)
       }
