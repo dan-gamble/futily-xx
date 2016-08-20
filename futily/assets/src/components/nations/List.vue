@@ -47,71 +47,16 @@
 </template>
 
 <script>
-  import _ from 'lodash'
-  import Velocity from 'velocity-animate'
   import ListMixin from '../../mixins/List'
   import { NATIONS_API_URL } from '../../utils/constants'
-
-  import Pagination from '../pagination/Pagination.vue'
 
   export default {
     name: 'NationsList',
     mixins: [ListMixin],
 
-    components: {
-      Pagination
-    },
-
     data () {
       return {
         apiUrl: NATIONS_API_URL
-      }
-    },
-
-    created () {
-      let url = this.apiUrl
-
-      if (_.has(this.$route.query, 'page')) {
-        url += `?page=${this.$route.query.page}`
-      }
-
-      this.fetchData(url)
-    },
-
-    watch: {
-      '$route' () {
-        this.fetchData(this.apiUrl)
-      }
-    },
-
-    methods: {
-      beforeEnter (el) {
-        el.style.opacity = 0
-        el.style.height = 0
-      },
-
-      enter (el, done) {
-        const delay = el.dataset.index * 50
-
-        setTimeout(function () {
-          Velocity(
-            el,
-            { opacity: 1, height: '1.6em' },
-            { complete: done }
-          )
-        }, delay)
-      },
-
-      leave (el, done) {
-        const delay = el.dataset.index * 50
-
-        setTimeout(function () {
-          Velocity(
-            el,
-            { opacity: 0, height: 0 },
-            { complete: done }
-          )
-        }, delay)
       }
     }
   }

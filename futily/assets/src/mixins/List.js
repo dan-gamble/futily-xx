@@ -1,6 +1,13 @@
 import _ from 'lodash'
+import Velocity from 'velocity-animate'
+
+import Pagination from '../components/pagination/Pagination.vue'
 
 export default {
+  components: {
+    Pagination
+  },
+
   data () {
     return {
       apiUrl: undefined,
@@ -51,7 +58,21 @@ export default {
        * Grab items from the API that match our search
        */
       this.searchItems(this.apiUrl)
+    },
+
+    '$route' () {
+      this.fetchData(this.apiUrl)
     }
+  },
+
+  created () {
+    let url = this.apiUrl
+
+    if (_.has(this.$route.query, 'page')) {
+      url += `?page=${this.$route.query.page}`
+    }
+
+    this.fetchData(url)
   },
 
   methods: {
@@ -128,7 +149,44 @@ export default {
       /* eslint-disable no-undef */
       this.fetchData(this.apiUrl)
       /* eslint-enable */
-    }, 300)
+    }, 300),
+
+    capFirstNormalize (val) {
+      let string = val
+      string = string.charAt(0).toUpperCase() + string.slice(1)
+      string = string.replace('_', ' ')
+
+      return string
+    },
+
+    beforeEnter (el) {
+      el.style.opacity = 0
+      el.style.height = 0
+    },
+
+    enter (el, done) {
+      const delay = el.dataset.index * 50
+
+      setTimeout(function () {
+        Velocity(
+          el,
+          { opacity: 1, height: '1.6em' },
+          { complete: done }
+        )
+      }, delay)
+    },
+
+    leave (el, done) {
+      const delay = el.dataset.index * 50
+
+      setTimeout(function () {
+        Velocity(
+          el,
+          { opacity: 0, height: 0 },
+          { complete: done }
+        )
+      }, delay)
+    }
   },
 
   filters: {
