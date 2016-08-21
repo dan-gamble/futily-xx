@@ -63,3 +63,23 @@ class PlayerViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Player.objects.all()
     lookup_field = 'slug'
     serializer_class = PlayerSerializer
+
+    def get_queryset(self):
+        filters = {
+            'nation': {
+                'nation__slug': self.request.query_params.get('nation')
+            }
+        }
+
+        exclude_queries = ['full']
+
+        qs = super(PlayerViewset, self).get_queryset()
+
+        for param, value in self.request.query_params.iteritems():
+            if param in exclude_queries:
+                continue
+
+            if value:
+                qs = qs.filter(**filters[param])
+
+        return qs
