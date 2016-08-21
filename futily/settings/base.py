@@ -29,12 +29,7 @@ SITE_DOMAIN = "futily.com"
 
 PREPEND_WWW = True
 
-ALLOWED_HOSTS = [
-    SITE_DOMAIN,
-    'www.{}'.format(SITE_DOMAIN),
-    'www.futily.onespace.media',
-    'www.futily.com'
-]
+ALLOWED_HOSTS = ['*']
 
 SUIT_CONFIG = {
     'ADMIN_NAME': SITE_NAME,
