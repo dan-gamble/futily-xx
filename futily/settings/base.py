@@ -29,7 +29,10 @@ SITE_DOMAIN = "futily.com"
 
 PREPEND_WWW = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    SITE_DOMAIN,
+    'www.{}'.format(SITE_DOMAIN)
+]
 
 SUIT_CONFIG = {
     'ADMIN_NAME': SITE_NAME,
