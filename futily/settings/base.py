@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     SITE_DOMAIN,
     'www.{}'.format(SITE_DOMAIN),
     'www.futily.onespace.media',
+    'www.futily.com'
 ]
 
 SUIT_CONFIG = {
