@@ -207,7 +207,7 @@ MIDDLEWARE_CLASSES = (
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "watson.middleware.SearchContextMiddleware",
+    # "watson.middleware.SearchContextMiddleware",
     "historylinks.middleware.HistoryLinkFallbackMiddleware",
     "cms.middleware.PublicationMiddleware",
     "cms.apps.pages.middleware.PageMiddleware",
