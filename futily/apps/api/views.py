@@ -53,7 +53,7 @@ class LeagueViewset(EaAssetViewset):
     serializer_class = LeagueSerializer
 
 
-class ClubViewset(viewsets.ReadOnlyModelViewSet):
+class ClubViewset(EaAssetViewset):
     queryset = Club.objects.all()
     lookup_field = 'slug'
     serializer_class = ClubSerializer

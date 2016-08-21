@@ -1,11 +1,11 @@
 from django.core import urlresolvers
 from django.db import models
 
-from futily.apps.models import EaAsset, TimeStampedModel
+from futily.apps.models import AverageRatingModel, EaAsset, TimeStampedModel
 from ..leagues.models import League
 
 
-class Club(EaAsset, TimeStampedModel, models.Model):
+class Club(EaAsset, AverageRatingModel, TimeStampedModel, models.Model):
     cached_url = models.CharField(max_length=1000, null=True, blank=True)
 
     name = models.CharField(max_length=100)
@@ -23,7 +23,7 @@ class Club(EaAsset, TimeStampedModel, models.Model):
     image_normal_lg = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['-average_rating', '-total_players', 'name']
         verbose_name = 'Club'
         verbose_name_plural = 'Clubs'
 

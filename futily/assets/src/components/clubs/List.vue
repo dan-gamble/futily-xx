@@ -4,18 +4,39 @@
 
     <pagination :config="pages" :next="nextPage" :prev="prevPage"></pagination>
 
+    <form class="search">
+      <div>
+        Search: <input type="search" placeholder="Search" v-model="searchQuery">
+      </div>
+
+      <div>
+        Sort by:
+        <select v-model="order">
+          <option :value="option" v-for="option in orderOptions">
+            {{ option | capFirstNormalize }}
+          </option>
+        </select>
+      </div>
+    </form>
+
     <hr>
 
+    <div v-if="searchQuery.length && !objects.filtered.length">
+      There are no search results
+    </div>
     <transition-group name="list"
                       tag="div"
                       :css="false"
                       @before-enter="beforeEnter"
                       @enter="enter"
-                      @leave="leave">
-      <div v-for="(club, index) in items" :key="club.id" :data-index="index">
+                      @leave="leave"
+                      v-else>
+      <div v-for="(club, index) in items" :key="club.id" :data-index="index" class="club">
         <router-link :to="{ name: 'clubs:detail', params: { id: club.slug } }">
+          <img alt="" :src="club.image_dark_sm">
           {{ club.name }}
         </router-link>
+        {{ club.average_rating }} Average - {{ club.total_players }} Players - {{ club.total_bronze }} Bronze - {{ club.total_silver }} Silver - {{ club.total_gold }} Gold - {{ club.total_inform }} Informs - {{ club.total_special }} Special
       </div>
     </transition-group>
 
@@ -26,71 +47,16 @@
 </template>
 
 <script>
-  import _ from 'lodash'
-  import Velocity from 'velocity-animate'
   import ListMixin from '../../mixins/List'
   import { CLUBS_API_URL } from '../../utils/constants'
-
-  import Pagination from '../pagination/Pagination.vue'
 
   export default {
     name: 'ClubsList',
     mixins: [ListMixin],
 
-    components: {
-      Pagination
-    },
-
     data () {
       return {
-        items: []
-      }
-    },
-
-    created () {
-      let url = CLUBS_API_URL
-
-      if (_.has(this.$route.query, 'page')) {
-        url += `?page=${this.$route.query.page}`
-      }
-
-      this.fetchData(url)
-    },
-
-    watch: {
-      '$route' () {
-        this.fetchData(CLUBS_API_URL)
-      }
-    },
-
-    methods: {
-      beforeEnter (el) {
-        el.style.opacity = 0
-        el.style.height = 0
-      },
-
-      enter (el, done) {
-        const delay = el.dataset.index * 50
-
-        setTimeout(function () {
-          Velocity(
-              el,
-              { opacity: 1, height: '1.6em' },
-              { complete: done }
-          )
-        }, delay)
-      },
-
-      leave (el, done) {
-        const delay = el.dataset.index * 50
-
-        setTimeout(function () {
-          Velocity(
-              el,
-              { opacity: 0, height: 0 },
-              { complete: done }
-          )
-        }, delay)
+        apiUrl: CLUBS_API_URL
       }
     }
   }
@@ -104,5 +70,11 @@
 
   .list-item-move {
     transition: transform 1s;
+  }
+
+  .club {
+    justify-content: space-between;
+
+    display: flex;
   }
 </style>
