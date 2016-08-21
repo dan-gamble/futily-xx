@@ -8,6 +8,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import generic
+from django.views.generic import TemplateView
 
 from rest_framework import routers
 
@@ -49,6 +50,7 @@ urlpatterns = [
 
     # There's no favicon here!
     url(r"^favicon.ico$", generic.RedirectView.as_view(permanent=True)),
+    url(r'', TemplateView.as_view(template_name="base.html")),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 ) + static(
