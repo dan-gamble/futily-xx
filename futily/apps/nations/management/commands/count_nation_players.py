@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 from django.db.models import Avg
 
 from ...models import Nation
-from ....players.models import Player, SPECIAL_TYPES
+from ....players.models import Player, SPECIAL_TYPES, TEAM_OF_THE_WEEK
 
 
 class Command(BaseCommand):
@@ -20,10 +20,16 @@ class Command(BaseCommand):
             # All players
             nation.total_players = len(players)
 
-            # All players who aren't rare or standard
+            # All players who aren't rare, standard, or TOTW
             nation.total_special = Player.objects.filter(
                 nation=nation,
                 player_type__in=SPECIAL_TYPES
+            ).count()
+
+            # All informs
+            nation.total_inform = Player.objects.filter(
+                nation=nation,
+                player_type=TEAM_OF_THE_WEEK
             ).count()
 
             # All golds

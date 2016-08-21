@@ -38,11 +38,12 @@ PLAYER_POSITION_LINE_CHOICES = (
     ('ATT', 'Attackers')
 )
 
-SPECIAL_TYPES = ['team of the week', 'team of the year', 'team of the season',
-                 'special edition', 'man of the match']
+SPECIAL_TYPES = ['TEAM OF THE YEAR', 'TEAM OF THE SEASON', 'special edition', 'man of the match']
+TEAM_OF_THE_WEEK = 'Team of the Week'
 
 
-class Player(EaAsset, TimeStampedModel, models.Model):
+class Player(TimeStampedModel, models.Model):
+    ea_id = models.PositiveIntegerField()
     cached_url = models.CharField(max_length=1000, null=True, blank=True)
 
     first_name = models.CharField(max_length=100)

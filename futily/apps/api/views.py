@@ -11,13 +11,9 @@ from futily.utils.pagination import CustomPagination
 from .serializers import ClubSerializer, LeagueSerializer, NationSerializer, PlayerSerializer
 
 
-class NationViewset(viewsets.ReadOnlyModelViewSet):
-    queryset = Nation.objects.all()
-    lookup_field = 'slug'
-    serializer_class = NationSerializer
-
+class EaAssetViewset(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
-        qs = super(NationViewset, self).get_queryset()
+        qs = super(EaAssetViewset, self).get_queryset()
         query = self.request.query_params.get('query', None)
         order = self.request.query_params.get('order', None)
 
@@ -32,7 +28,7 @@ class NationViewset(viewsets.ReadOnlyModelViewSet):
         return qs
 
     def list(self, request, *args, **kwargs):
-        response = super(NationViewset, self).list(request, args, kwargs)
+        response = super(EaAssetViewset, self).list(request, args, kwargs)
         model = self.serializer_class.Meta.model
         # fields = self.serializer_class.Meta.model._meta.get_all_field_names()
         response.data['order_options'] = ['total_players', 'name', 'total_bronze', 'total_silver', 'total_gold',
@@ -44,7 +40,14 @@ class NationViewset(viewsets.ReadOnlyModelViewSet):
         return response
 
 
-class LeagueViewset(viewsets.ReadOnlyModelViewSet):
+
+class NationViewset(EaAssetViewset):
+    queryset = Nation.objects.all()
+    lookup_field = 'slug'
+    serializer_class = NationSerializer
+
+
+class LeagueViewset(EaAssetViewset):
     queryset = League.objects.all()
     lookup_field = 'slug'
     serializer_class = LeagueSerializer

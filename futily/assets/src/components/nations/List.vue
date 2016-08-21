@@ -31,7 +31,7 @@
                       @enter="enter"
                       @leave="leave"
                       v-else>
-      <div v-for="(nation, index) in items" :key="nation.id" :data-index="index">
+      <div v-for="(nation, index) in items" :key="nation.id" :data-index="index" class="nation">
         <router-link :to="{ name: 'nations:detail', params: { id: nation.slug } }">
           <img alt="" :src="nation.image_sm">
           {{ nation.name }}
@@ -70,5 +70,11 @@
 
   .list-item-move {
     transition: transform 1s;
+  }
+
+  .nation {
+    justify-content: space-between;
+
+    display: flex;
   }
 </style>

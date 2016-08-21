@@ -316,7 +316,7 @@ class Downloader(object):
                             position_line = k
 
                     club = Club.objects.filter(ea_id=player['club']['id'])
-                    league = League.objects.filter(ea_id=player['league']['id'])
+                    league = club.first().league if club else None
                     nation = Nation.objects.filter(ea_id=player['nation']['id'])
 
                     player_data = {
@@ -324,7 +324,7 @@ class Downloader(object):
                         'last_name': normalize_unicode(player['lastName']),
                         'common_name': normalize_unicode(common_name),
                         'club': club.first() if club else None,
-                        'league': league.first() if league else None,
+                        'league': league,
                         'nation': nation.first() if nation else None,
                         'image': player['headshotImgUrl'],
                         'image_sm': player['headshot']['smallImgUrl'],
