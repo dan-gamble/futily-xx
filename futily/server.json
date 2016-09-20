@@ -7,7 +7,7 @@
     "remotes": {
         "staging": {
             "server": {
-                "ip": "139.59.189.184",
+                "ip": "138.68.142.71",
                 "identity_file": "",
                 "initial_user": "root"
             },

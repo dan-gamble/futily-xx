@@ -71,15 +71,25 @@ class PlayerViewset(viewsets.ReadOnlyModelViewSet):
             }
         }
 
-        exclude_queries = ['full']
+        quality = {
+            'bronze': {
+                'overall_rating__lte': 64
+            },
+            'silver': {
+                'overall_rating__range': (65, 74)
+            },
+            'gold': {
+                'overall_rating__gte': 75
+            }
+        }
 
         qs = super(PlayerViewset, self).get_queryset()
 
         for param, value in self.request.query_params.iteritems():
-            if param in exclude_queries:
-                continue
-
-            if value:
+            if param in filters:
                 qs = qs.filter(**filters[param])
+
+            if value in quality:
+                qs = qs.filter(**quality[value])
 
         return qs

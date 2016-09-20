@@ -31,7 +31,7 @@
                       @enter="enter"
                       @leave="leave"
                       v-else>
-      <div v-for="(club, index) in items" :key="club.id" :data-index="index" class="club">
+      <div v-for="(club, index) in items" :key="club.id" :data-index="index" class="list-item">
         <router-link :to="{ name: 'clubs:detail', params: { id: club.slug } }">
           <img alt="" :src="club.image_dark_sm">
           {{ club.name }}
@@ -72,7 +72,7 @@
     transition: transform 1s;
   }
 
-  .club {
+  .list-item {
     justify-content: space-between;
 
     display: flex;

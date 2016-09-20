@@ -110,7 +110,7 @@ export default {
         }
       }
 
-      this.$http.get(url, options).then((response) => {
+      this.$http.get(`${url}?full=True`, options).then((response) => {
         this.assignData(response.json())
       })
     },

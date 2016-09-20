@@ -50,7 +50,7 @@ urlpatterns = [
 
     # There's no favicon here!
     url(r"^favicon.ico$", generic.RedirectView.as_view(permanent=True)),
-    url(r'', TemplateView.as_view(template_name="base.html")),
+url(r'', TemplateView.as_view(template_name="base.html")),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 ) + static(

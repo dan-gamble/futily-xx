@@ -78,6 +78,7 @@ class PlayerSerializer(serializers.HyperlinkedModelSerializer):
 
         self.is_full = self.context['request'].query_params.get('full', False)
 
+        # This allows us to pass the context to the foreign keys, we need this in every Serializer
         self.fields['nation'] = NationSerializer(context=self.context)
         self.fields['league'] = LeagueSerializer(context=self.context)
         self.fields['club'] = ClubSerializer(context=self.context)
