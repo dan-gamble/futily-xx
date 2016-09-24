@@ -158,6 +158,7 @@ INSTALLED_APPS = [
     # "futily.apps.careers",
     # "futily.apps.faqs",
     "futily.apps.footer",
+    "futily.apps.nations",
     "futily.apps.news",
     # "futily.apps.people",
     "futily.apps.sections",
