@@ -1,0 +1,23 @@
+{% set footer_link_groups = get_footer_link_groups() %}
+
+<footer>
+  {% for group in footer_link_groups %}
+    <ul>
+      <li>
+        <h5>
+          {% if group.get_link() %}
+            <a href="{{ group.get_link() }}" target="{{ group.target }}">{{ group.link_text }}</a>
+          {% else %}
+            {{ group.link_text }}
+          {% endif %}
+        </h5>
+      </li>
+
+      {% for link in group.children.all() %}
+        <li>
+          <a href="{% if link.get_link() %}{{ link.get_link() }}{% endif %}" target="{{ link.target }}">{{ link.link_text }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+</footer>
