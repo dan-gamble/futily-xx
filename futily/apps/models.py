@@ -1,5 +1,7 @@
 from django.db import models
 
+from futily.utils.methods import normalize_unicode
+
 
 class EaAsset(models.Model):
     ea_id = models.PositiveIntegerField()
@@ -13,6 +15,9 @@ class EaAsset(models.Model):
 
     class Meta:
         abstract = True
+
+    def normalized_name(self):
+        return normalize_unicode(self.name)
 
 
 class AverageRatingModel(models.Model):
