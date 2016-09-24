@@ -1,10 +1,11 @@
-from cms import externals
-from cms.apps.pages.middleware import RequestPageManager
-from cms.apps.pages.models import Page
 from django.contrib.contenttypes.models import ContentType
 from django.test import RequestFactory, TestCase
 from django.utils.timezone import now
 from django.views import generic
+
+from cms import externals
+from cms.apps.pages.middleware import RequestPageManager
+from cms.apps.pages.models import Page
 
 from ..models import Article, Category, NewsFeed
 from ..views import (ArticleCategoryArchiveView, ArticleDetailView,

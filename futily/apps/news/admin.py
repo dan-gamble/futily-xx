@@ -1,9 +1,10 @@
 """Admin settings for the CMS news app."""
 
-from cms import externals
-from cms.admin import OnlineBaseAdmin, PageBaseAdmin
 from django.conf import settings
 from django.contrib import admin
+
+from cms import externals
+from cms.admin import OnlineBaseAdmin, PageBaseAdmin
 
 from .models import STATUS_CHOICES, Article, Category, get_default_news_feed
 

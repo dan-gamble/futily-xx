@@ -1,5 +1,6 @@
-from cms.apps.pages.models import Page
 from django.db import models
+
+from cms.apps.pages.models import Page
 
 
 class FooterLinkAbstract(models.Model):

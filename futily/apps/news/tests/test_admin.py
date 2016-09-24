@@ -1,10 +1,11 @@
-from cms import externals
-from cms.apps.pages.models import Page
 from django.contrib.admin.sites import AdminSite
 from django.contrib.contenttypes.models import ContentType
 from django.forms.models import save_instance
 from django.test import RequestFactory, TestCase
 from django.utils.timezone import now
+
+from cms import externals
+from cms.apps.pages.models import Page
 
 from ..admin import ArticleAdminBase
 from ..models import Article, Category, NewsFeed, get_default_news_feed

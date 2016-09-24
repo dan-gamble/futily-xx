@@ -1,6 +1,7 @@
-from cms.apps.pages.admin import page_admin
 from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
+
+from cms.apps.pages.admin import page_admin
 
 from .models import Content, ContentSection
 

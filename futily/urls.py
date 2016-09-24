@@ -1,13 +1,14 @@
 """URL config for futily project."""
 
-from cms.forms import CMSPasswordChangeForm
-from cms.sitemaps import registered_sitemaps
-from cms.views import TextTemplateView
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import generic
+
+from cms.forms import CMSPasswordChangeForm
+from cms.sitemaps import registered_sitemaps
+from cms.views import TextTemplateView
 
 from .apps.sections.models import sections_js
 from .utils.views import FrontendView

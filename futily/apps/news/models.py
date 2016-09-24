@@ -1,13 +1,14 @@
 """Models used by the CMS news app."""
+from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
+from django.utils import timezone
+
 from cms import externals, sitemaps
 from cms.apps.media.models import ImageRefField
 from cms.apps.pages.models import ContentBase, Page
 from cms.models import (HtmlField, OnlineBaseManager, PageBase,
                         PageBaseSearchAdapter)
-from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
-from django.db import models
-from django.utils import timezone
 
 
 class NewsFeed(ContentBase):
