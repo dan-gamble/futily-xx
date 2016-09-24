@@ -3,13 +3,12 @@ import os
 
 import requests
 from django.conf import settings
-from django.utils.text import slugify
 
 from futily.utils.methods import normalize_unicode
 
-from futily.apps.nations.models import Nation
+from futily.apps.clubs.models import Club
 from futily.apps.leagues.models import League
-# from .clubs.models import Club
+from futily.apps.nations.models import Nation
 # from .players.models import Player, PLAYER_POSITION_LINES
 
 
@@ -103,8 +102,6 @@ class Downloader(object):
                 if league['Year'] == '2016':
                     leagues_data = league['Leagues']
 
-        print leagues_data
-
         for i in range(1, self.get_total_pages() + 1):
             with open(os.path.join(self.base_path, 'file{}.json'.format(i))) as data_file:
                 data = json.load(data_file)
@@ -163,95 +160,86 @@ class Downloader(object):
         print len(created_leagues)
 
         return
-    #
-    # def build_club_data(self, *args, **kwargs):
-    #     urls = kwargs.get('failed', self.get_crawlable_urls())
-    #     clubs = kwargs.get('data', [])
-    #     failed_urls = []
-    #     clubs_data = {}
-    #
-    #     club_ut_page = requests.get(self.clubs_json)
-    #
-    #     if club_ut_page.status_code == requests.codes.ok:
-    #         clubs_json = club_ut_page.json()
-    #
-    #         for club in clubs_json['Years']:
-    #             if club['Year'] == '2016':
-    #                 clubs_data = club['Teams']
-    #
-    #     for i, url in enumerate(urls):
-    #         page = requests.get(url)
-    #
-    #         if page.status_code == requests.codes.ok:
-    #             print 'Got page {}'.format(i)
-    #
-    #             page_json = page.json()
-    #             items = page_json['items']
-    #
-    #             for item in items:
-    #                 club = item['club']
-    #
-    #                 club_data = {
-    #                     'name': club['name'],
-    #                     'name_abbr': club['abbrName'],
-    #                     'ea_id': club['id'],
-    #                     'image_dark_sm': club['imageUrls']['dark']['small'],
-    #                     'image_dark_md': club['imageUrls']['dark']['medium'],
-    #                     'image_dark_lg': club['imageUrls']['dark']['large'],
-    #                     'image_normal_sm': club['imageUrls']['normal']['small'],
-    #                     'image_normal_md': club['imageUrls']['normal']['medium'],
-    #                     'image_normal_lg': club['imageUrls']['normal']['large'],
-    #                     'slug': slugify(club['name']),
-    #                     'league': None
-    #                 }
-    #
-    #                 for data in clubs_data:
-    #                     club_id = int(data['TeamId'])
-    #                     scraped_id = int(club_data['ea_id'])
-    #                     league_id = int(data['LeagueId'])
-    #
-    #                     if club_id == scraped_id:
-    #                         try:
-    #                             league = League.objects.get(
-    #                                 ea_id=league_id
-    #                             )
-    #                         except Exception as e:
-    #                             print e
-    #
-    #                         club_data['league'] = league if league else None
-    #
-    #                         if club_data not in clubs:
-    #                             print u'Paired Club & League: {} - {}'.format(
-    #                                 club_data['name'],
-    #                                 club_data['league']
-    #                             )
-    #
-    #                             clubs.append(club_data)
-    #         else:
-    #             failed_urls.append(url)
-    #
-    #             print 'Url failed: {}'.format(url)
-    #
-    #     if failed_urls:
-    #         self.build_club_data(failed=failed_urls, data=clubs)
-    #
-    #     return clubs
-    #
-    # def build_clubs(self):
-    #     data = self.build_club_data()
-    #     created_clubs = []
-    #
-    #     for obj in data:
-    #         club, created = Club.objects.get_or_create(**obj)
-    #
-    #         if created:
-    #             created_clubs.append(club)
-    #
-    #             print (u'Created Club: {}'.format(club))
-    #
-    #     print len(created_clubs)
-    #
-    #     return
+
+    def build_club_data(self, *args, **kwargs):
+        # urls = kwargs.get('failed', self.get_crawlable_urls())
+        clubs = kwargs.get('data', [])
+        # failed_urls = []
+        clubs_data = {}
+
+        club_ut_page = requests.get(self.clubs_json)
+
+        if club_ut_page.status_code == requests.codes.ok:
+            clubs_json = club_ut_page.json()
+
+            for club in clubs_json['Years']:
+                if club['Year'] == '2016':
+                    clubs_data = club['Teams']
+
+        for i in range(1, self.get_total_pages() + 1):
+            with open(os.path.join(self.base_path, 'file{}.json'.format(i))) as data_file:
+                data = json.load(data_file)
+
+                print 'Got page {}'.format(i)
+
+                items = data['items']
+
+                for item in items:
+                    club = item['club']
+
+                    club_data = {
+                        'name': club['name'],
+                        'name_abbr': club['abbrName'],
+                        'ea_id': club['id'],
+                        'image_dark_sm': club['imageUrls']['dark']['small'],
+                        'image_dark_md': club['imageUrls']['dark']['medium'],
+                        'image_dark_lg': club['imageUrls']['dark']['large'],
+                        'image_normal_sm': club['imageUrls']['normal']['small'],
+                        'image_normal_md': club['imageUrls']['normal']['medium'],
+                        'image_normal_lg': club['imageUrls']['normal']['large'],
+                        'league': None
+                    }
+
+                    for data in clubs_data:
+                        club_id = int(data['TeamId'])
+                        scraped_id = int(club_data['ea_id'])
+                        league_id = int(data['LeagueId'])
+
+                        if club_id == scraped_id:
+                            try:
+                                league = League.objects.get(
+                                    ea_id=league_id
+                                )
+                            except Exception as e:
+                                print e
+
+                            club_data['league'] = league if league else None
+
+                            if club_data not in clubs:
+                                print u'Paired Club & League: {} - {}'.format(
+                                    club_data['name'],
+                                    club_data['league']
+                                )
+
+                                clubs.append(club_data)
+
+        return clubs
+
+    def build_clubs(self):
+        data = self.build_club_data()
+        created_clubs = []
+
+        for obj in data:
+            club, created = Club.objects.get_or_create(**obj)
+
+            if created:
+                created_clubs.append(club)
+
+                print (u'Created Club: {}'.format(club))
+
+        print len(created_clubs)
+
+        return
     #
     # def build_player_data(self, *args, **kwargs):
     #

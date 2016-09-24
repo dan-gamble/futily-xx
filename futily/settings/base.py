@@ -155,13 +155,11 @@ INSTALLED_APPS = [
 
     "redirects",
 
-    # "futily.apps.careers",
-    # "futily.apps.faqs",
+    "futily.apps.clubs",
     "futily.apps.footer",
     "futily.apps.nations",
     "futily.apps.news",
     "futily.apps.leagues",
-    # "futily.apps.people",
     "futily.apps.sections",
     "futily.apps.site",
 
