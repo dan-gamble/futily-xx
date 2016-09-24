@@ -160,6 +160,7 @@ INSTALLED_APPS = [
     "futily.apps.nations",
     "futily.apps.news",
     "futily.apps.leagues",
+    "futily.apps.players",
     "futily.apps.sections",
     "futily.apps.site",
 

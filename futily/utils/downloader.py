@@ -9,7 +9,7 @@ from futily.utils.methods import normalize_unicode
 from futily.apps.clubs.models import Club
 from futily.apps.leagues.models import League
 from futily.apps.nations.models import Nation
-# from .players.models import Player, PLAYER_POSITION_LINES
+from futily.apps.players.models import Player, PLAYER_POSITION_LINES
 
 
 class Downloader(object):
@@ -240,154 +240,139 @@ class Downloader(object):
         print len(created_clubs)
 
         return
-    #
-    # def build_player_data(self, *args, **kwargs):
-    #
-    #     urls = kwargs.get('failed', self.get_crawlable_urls())
-    #     players = kwargs.get('data', [])
-    #     failed_urls = []
-    #
-    #     for i, url in enumerate(urls):
-    #         page = requests.get(url)
-    #
-    #         if page.status_code == requests.codes.ok:
-    #             print 'Got page {}'.format(i)
-    #
-    #             page_json = page.json()
-    #             items = page_json['items']
-    #
-    #             for item in items:
-    #                 player = item
-    #
-    #                 print(player['firstName'])
-    #
-    #                 if player['commonName']:
-    #                     common_name = player['commonName']
-    #                 elif player['name']:
-    #                     common_name = player['name']
-    #                 else:
-    #                     common_name = '{} {}'.format(
-    #                         player['firstName'],
-    #                         player['lastName']
-    #                     )
-    #
-    #                 for k, v in PLAYER_POSITION_LINES.items():
-    #                     if player['position'] in PLAYER_POSITION_LINES[k]:
-    #                         position_line = k
-    #
-    #                 club = Club.objects.filter(ea_id=player['club']['id'])
-    #                 league = club.first().league if club else None
-    #                 nation = Nation.objects.filter(ea_id=player['nation']['id'])
-    #
-    #                 player_data = {
-    #                     'first_name': normalize_unicode(player['firstName']),
-    #                     'last_name': normalize_unicode(player['lastName']),
-    #                     'common_name': normalize_unicode(common_name),
-    #                     'club': club.first() if club else None,
-    #                     'league': league,
-    #                     'nation': nation.first() if nation else None,
-    #                     'image': player['headshotImgUrl'],
-    #                     'image_sm': player['headshot']['smallImgUrl'],
-    #                     'image_md': player['headshot']['medImgUrl'],
-    #                     'image_lg': player['headshot']['largeImgUrl'],
-    #                     'image_special_totw_md': player['specialImages']['medTOTWImgUrl'],
-    #                     'image_special_totw_lg': player['specialImages']['largeTOTWImgUrl'],
-    #                     'position': player['position'],
-    #                     'position_full': player['positionFull'],
-    #                     'position_line': position_line,
-    #                     'playstyle': player['playStyle'],
-    #                     'playstyle_id': player['playStyleId'],
-    #                     'height': player['height'],
-    #                     'weight': player['weight'],
-    #                     'date_of_birth': player['birthdate'],
-    #                     'acceleration': player['acceleration'],
-    #                     'aggression': player['aggression'],
-    #                     'agility': player['agility'],
-    #                     'balance': player['balance'],
-    #                     'ball_control': player['ballcontrol'],
-    #                     'crossing': player['crossing'],
-    #                     'curve': player['curve'],
-    #                     'dribbling': player['dribbling'],
-    #                     'finishing': player['finishing'],
-    #                     'free_kick_accuracy': player['freekickaccuracy'],
-    #                     'gk_diving': player['gkdiving'],
-    #                     'gk_handling': player['gkhandling'],
-    #                     'gk_kicking': player['gkkicking'],
-    #                     'gk_positioning': player['gkpositioning'],
-    #                     'gk_reflexes': player['gkreflexes'],
-    #                     'heading_accuracy': player['headingaccuracy'],
-    #                     'interceptions': player['interceptions'],
-    #                     'jumping': player['jumping'],
-    #                     'long_passing': player['longpassing'],
-    #                     'long_shots': player['longshots'],
-    #                     'marking': player['marking'],
-    #                     'penalties': player['penalties'],
-    #                     'positioning': player['positioning'],
-    #                     'potential': player['potential'],
-    #                     'reactions': player['reactions'],
-    #                     'short_passing': player['shortpassing'],
-    #                     'shot_power': player['shotpower'],
-    #                     'sliding_tackle': player['slidingtackle'],
-    #                     'sprint_speed': player['sprintspeed'],
-    #                     'standing_tackle': player['standingtackle'],
-    #                     'stamina': player['stamina'],
-    #                     'strength': player['strength'],
-    #                     'vision': player['vision'],
-    #                     'volleys': player['volleys'],
-    #                     'foot': player['foot'],
-    #                     'skill_moves': player['skillMoves'],
-    #                     'weak_foot': player['weakFoot'],
-    #                     'traits': player['traits'],
-    #                     'specialities': player['specialities'],
-    #                     'workrate_att': player['atkWorkRate'],
-    #                     'workrate_def': player['defWorkRate'],
-    #                     'player_type': player['playerType'],
-    #                     'item_type': player['itemType'],
-    #                     'overall_rating': player['rating'],
-    #                     'card_att_1': player['attributes'][0]['value'],
-    #                     'card_att_2': player['attributes'][1]['value'],
-    #                     'card_att_3': player['attributes'][2]['value'],
-    #                     'card_att_4': player['attributes'][3]['value'],
-    #                     'card_att_5': player['attributes'][4]['value'],
-    #                     'card_att_6': player['attributes'][5]['value'],
-    #                     'quality': player['quality'],
-    #                     'color': player['color'],
-    #                     'is_gk': player['isGK'],
-    #                     'is_special_type': player['isSpecialType'],
-    #                     'is_loan': player['isLoan'],
-    #                     'model_name': player['modelName'],
-    #                     'base_id': player['baseId'],
-    #                     'ea_id': player['baseId']
-    #                 }
-    #
-    #                 if player_data not in players:
-    #                     players.append(player_data)
-    #         else:
-    #             failed_urls.append(url)
-    #
-    #             print 'Url failed: {}'.format(url)
-    #
-    #     if failed_urls:
-    #         self.build_player_data(failed=failed_urls, data=players)
-    #
-    #     return players
-    #
-    # def build_players(self):
-    #     data = self.build_player_data()
-    #     created_players = []
-    #
-    #     for obj in data:
-    #         player, created = Player.objects.get_or_create(**obj)
-    #
-    #         if created:
-    #             player.slug = slugify(
-    #                 '{}-{}'.format(player.id, player.common_name)
-    #             )
-    #             player.save()
-    #             created_players.append(created)
-    #
-    #             print (u'Created Player: {}'.format(player))
-    #
-    #     print len(created_players)
-    #
-    #     return
+
+    def build_player_data(self, *args, **kwargs):
+        # urls = kwargs.get('failed', self.get_crawlable_urls())
+        players = kwargs.get('data', [])
+        # failed_urls = []
+
+        for i in range(1, self.get_total_pages() + 1):
+            with open(os.path.join(self.base_path, 'file{}.json'.format(i))) as data_file:
+                data = json.load(data_file)
+
+                print 'Got page {}'.format(i)
+
+                items = data['items']
+
+                for item in items:
+                    player = item
+
+                    print(player['firstName'])
+
+                    if player['commonName']:
+                        common_name = player['commonName']
+                    elif player['name']:
+                        common_name = player['name']
+                    else:
+                        common_name = '{} {}'.format(
+                            player['firstName'],
+                            player['lastName']
+                        )
+
+                    for k, v in PLAYER_POSITION_LINES.items():
+                        if player['position'] in PLAYER_POSITION_LINES[k]:
+                            position_line = k
+
+                    club = Club.objects.filter(ea_id=player['club']['id'])
+                    league = club.first().league if club else None
+                    nation = Nation.objects.filter(ea_id=player['nation']['id'])
+
+                    player_data = {
+                        'first_name': player['firstName'],
+                        'last_name': player['lastName'],
+                        'common_name': common_name,
+                        'club': club.first() if club else None,
+                        'league': league,
+                        'nation': nation.first() if nation else None,
+                        'image': player['headshotImgUrl'],
+                        'image_sm': player['headshot']['smallImgUrl'],
+                        'image_md': player['headshot']['medImgUrl'],
+                        'image_lg': player['headshot']['largeImgUrl'],
+                        'image_special_totw_md': player['specialImages']['medTOTWImgUrl'],
+                        'image_special_totw_lg': player['specialImages']['largeTOTWImgUrl'],
+                        'position': player['position'],
+                        'position_full': player['positionFull'],
+                        'position_line': position_line,
+                        'playstyle': player['playStyle'],
+                        'playstyle_id': player['playStyleId'],
+                        'height': player['height'],
+                        'weight': player['weight'],
+                        'date_of_birth': player['birthdate'],
+                        'acceleration': player['acceleration'],
+                        'aggression': player['aggression'],
+                        'agility': player['agility'],
+                        'balance': player['balance'],
+                        'ball_control': player['ballcontrol'],
+                        'crossing': player['crossing'],
+                        'curve': player['curve'],
+                        'dribbling': player['dribbling'],
+                        'finishing': player['finishing'],
+                        'free_kick_accuracy': player['freekickaccuracy'],
+                        'gk_diving': player['gkdiving'],
+                        'gk_handling': player['gkhandling'],
+                        'gk_kicking': player['gkkicking'],
+                        'gk_positioning': player['gkpositioning'],
+                        'gk_reflexes': player['gkreflexes'],
+                        'heading_accuracy': player['headingaccuracy'],
+                        'interceptions': player['interceptions'],
+                        'jumping': player['jumping'],
+                        'long_passing': player['longpassing'],
+                        'long_shots': player['longshots'],
+                        'marking': player['marking'],
+                        'penalties': player['penalties'],
+                        'positioning': player['positioning'],
+                        'potential': player['potential'],
+                        'reactions': player['reactions'],
+                        'short_passing': player['shortpassing'],
+                        'shot_power': player['shotpower'],
+                        'sliding_tackle': player['slidingtackle'],
+                        'sprint_speed': player['sprintspeed'],
+                        'standing_tackle': player['standingtackle'],
+                        'stamina': player['stamina'],
+                        'strength': player['strength'],
+                        'vision': player['vision'],
+                        'volleys': player['volleys'],
+                        'foot': player['foot'],
+                        'skill_moves': player['skillMoves'],
+                        'weak_foot': player['weakFoot'],
+                        'traits': player['traits'],
+                        'specialities': player['specialities'],
+                        'workrate_att': player['atkWorkRate'],
+                        'workrate_def': player['defWorkRate'],
+                        'player_type': player['playerType'],
+                        'item_type': player['itemType'],
+                        'overall_rating': player['rating'],
+                        'card_att_1': player['attributes'][0]['value'],
+                        'card_att_2': player['attributes'][1]['value'],
+                        'card_att_3': player['attributes'][2]['value'],
+                        'card_att_4': player['attributes'][3]['value'],
+                        'card_att_5': player['attributes'][4]['value'],
+                        'card_att_6': player['attributes'][5]['value'],
+                        'quality': player['quality'],
+                        'color': player['color'],
+                        'is_gk': player['isGK'],
+                        'is_special_type': player['isSpecialType'],
+                        'is_loan': player['isLoan'],
+                        'model_name': player['modelName'],
+                        'base_id': player['baseId'],
+                        'ea_id': player['baseId']
+                    }
+
+                    if player_data not in players:
+                        players.append(player_data)
+
+        return players
+
+    def build_players(self):
+        data = self.build_player_data()
+        created_players = []
+
+        for obj in data:
+            player, created = Player.objects.get_or_create(**obj)
+
+            if created:
+                print (u'Created Player: {}'.format(player))
+
+        print len(created_players)
+
+        return
