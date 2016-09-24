@@ -19,7 +19,6 @@ fabric-virtualenv==0.3.0
 Jinja2==2.8
 MarkupSafe==0.23
 oauthlib==2.0.0
-onespacemedia-cms==1.12.8
 onespacemedia-cms-redirects==0.0.1
 onespacemedia-server-management==0.4.9
 opbeat==3.4.0
