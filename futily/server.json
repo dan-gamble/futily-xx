@@ -9,7 +9,7 @@
             "server": {
                 "ip": "178.62.21.116",
                 "identity_file": "",
-                "initial_user": "root"
+                "initial_user": "deploy"
             },
             "database": {
                 "name": "futily",
@@ -20,7 +20,7 @@
         }
     },
     "opbeat": {
-        "organization_id": "dde034beb33d4b77bb9937c39f0c158f",
+        "organization_id": "f6b78f2bdc4d44a79b2310477d02d3a7",
         "app_id": "3b5fe8a8af",
         "secret_token": "c124cd945f999ccd4c33b558666a87e99ddc5635"
     },
