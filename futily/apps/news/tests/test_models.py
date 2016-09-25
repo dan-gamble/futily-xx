@@ -1,12 +1,11 @@
 from datetime import timedelta
 
-from django.contrib.contenttypes.models import ContentType
-from django.test import TestCase
-from django.utils.timezone import now
-
 from cms import externals
 from cms.apps.pages.models import Page
 from cms.models import publication_manager
+from django.contrib.contenttypes.models import ContentType
+from django.test import TestCase
+from django.utils.timezone import now
 
 from ..models import (Article, Category, CategoryHistoryLinkAdapter, NewsFeed,
                       get_default_news_feed, get_default_news_page)

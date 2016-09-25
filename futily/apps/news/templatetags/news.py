@@ -3,12 +3,12 @@
 from functools import wraps
 
 import jinja2
+
+from cms.apps.pages.models import Page
 from django import template
 from django.contrib.contenttypes.models import ContentType
 from django.utils.html import escape
 from django_jinja import library
-
-from cms.apps.pages.models import Page
 
 from ..models import Article, NewsFeed, get_default_news_page
 

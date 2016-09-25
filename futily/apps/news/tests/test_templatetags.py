@@ -1,16 +1,16 @@
+from cms import externals
+from cms.apps.pages.models import ContentBase, Page
 from django.contrib.contenttypes.models import ContentType
 from django.template import VariableDoesNotExist
 from django.test import TestCase
 from django.utils.timezone import now
 
-from cms import externals
-from cms.apps.pages.models import ContentBase, Page
-
 from ..models import Article, Category, NewsFeed
-from ..templatetags.news import (get_article_archive_url, get_article_day_archive_url,
-                                 get_article_url, get_article_year_archive_url,
-                                 get_category_url, get_page_from_context, page_context,
-                                 render_article_date_list, takes_article_page, takes_current_page)
+from ..templatetags.news import (get_article_archive_url,
+                                 get_article_day_archive_url, get_article_url,
+                                 get_article_year_archive_url,
+                                 get_category_url, get_page_from_context,
+                                 page_context, takes_article_page, takes_current_page)
 
 
 class TestPageContent(ContentBase):

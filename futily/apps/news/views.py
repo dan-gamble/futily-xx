@@ -1,5 +1,7 @@
 """Views used by the CMS news app."""
 
+from cms.html import process as process_html
+from cms.views import SearchMetaDetailMixin
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.feedgenerator import DefaultFeed
@@ -7,9 +9,6 @@ from django.views import generic
 from django.views.generic import (DayArchiveView, ListView, MonthArchiveView,
                                   YearArchiveView)
 from django.views.generic.list import BaseListView
-
-from cms.html import process as process_html
-from cms.views import SearchMetaDetailMixin
 
 from .models import Article, Category
 
