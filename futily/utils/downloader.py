@@ -1,15 +1,14 @@
 import json
 import os
-
 import requests
-from django.conf import settings
 
-from futily.utils.methods import normalize_unicode
+from django.conf import settings
 
 from futily.apps.clubs.models import Club
 from futily.apps.leagues.models import League
 from futily.apps.nations.models import Nation
-from futily.apps.players.models import Player, PLAYER_POSITION_LINES
+from futily.apps.players.models import PLAYER_POSITION_LINES, Player
+from futily.utils.methods import normalize_unicode
 
 
 class Downloader(object):
@@ -81,13 +80,13 @@ class Downloader(object):
             if created:
                 created_nations.append(nation)
 
-                print (u'Created Nation: {}'.format(nation))
+                print u'Created Nation: {}'.format(nation)
 
         print len(created_nations)
 
         return
 
-    def build_league_data(self, *args, **kwargs):
+    def build_league_data(self, *args, **kwargs):  # pylint: disable=too-complex,too-many-locals
         # urls = kwargs.get('failed', self.get_crawlable_urls())
         leagues = kwargs.get('data', [])
         # failed_urls = []
@@ -130,7 +129,7 @@ class Downloader(object):
                                 nation = Nation.objects.get(
                                     ea_id=nation_id
                                 )
-                            except Exception as e:
+                            except Exception as e:  # pylint: disable=broad-except
                                 print e
 
                             league_data['nation'] = nation if nation else None
@@ -155,13 +154,13 @@ class Downloader(object):
             if created:
                 created_leagues.append(league)
 
-                print (u'Created League: {}'.format(league))
+                print u'Created League: {}'.format(league)
 
         print len(created_leagues)
 
         return
 
-    def build_club_data(self, *args, **kwargs):
+    def build_club_data(self, *args, **kwargs):  # pylint: disable=too-complex,too-many-locals
         # urls = kwargs.get('failed', self.get_crawlable_urls())
         clubs = kwargs.get('data', [])
         # failed_urls = []
@@ -210,7 +209,7 @@ class Downloader(object):
                                 league = League.objects.get(
                                     ea_id=league_id
                                 )
-                            except Exception as e:
+                            except Exception as e:  # pylint: disable=broad-except
                                 print e
 
                             club_data['league'] = league if league else None
@@ -235,13 +234,13 @@ class Downloader(object):
             if created:
                 created_clubs.append(club)
 
-                print (u'Created Club: {}'.format(club))
+                print u'Created Club: {}'.format(club)
 
         print len(created_clubs)
 
         return
 
-    def build_player_data(self, *args, **kwargs):
+    def build_player_data(self, *args, **kwargs):  # pylint: disable=too-many-locals
         # urls = kwargs.get('failed', self.get_crawlable_urls())
         players = kwargs.get('data', [])
         # failed_urls = []
@@ -257,8 +256,6 @@ class Downloader(object):
                 for item in items:
                     player = item
 
-                    print(player['firstName'])
-
                     if player['commonName']:
                         common_name = player['commonName']
                     elif player['name']:
@@ -269,7 +266,7 @@ class Downloader(object):
                             player['lastName']
                         )
 
-                    for k, v in PLAYER_POSITION_LINES.items():
+                    for k, v in PLAYER_POSITION_LINES.items():  # pylint: disable=unused-variable
                         if player['position'] in PLAYER_POSITION_LINES[k]:
                             position_line = k
 
@@ -371,7 +368,7 @@ class Downloader(object):
             player, created = Player.objects.get_or_create(**obj)
 
             if created:
-                print (u'Created Player: {}'.format(player))
+                print u'Created Player: {}'.format(player)
 
         print len(created_players)
 

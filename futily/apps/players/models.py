@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 from jsonfield import JSONField
 
-from futily.apps.models import EaAsset, TimeStampedModel
+from futily.apps.models import TimeStampedModel
 from futily.utils.methods import normalize_unicode
 
 PLAYER_POSITION_CHOICES = (
