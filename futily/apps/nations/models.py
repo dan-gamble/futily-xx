@@ -44,7 +44,7 @@ class Nation(SearchMetaBase, EaAsset, TimeStampedModel, AverageRatingModel, mode
 
         super(Nation, self).save()
 
-    def get_absolute_url(self, cached=False):
+    def get_absolute_url(self):
         return self.page.page.reverse('nation_detail', kwargs={
             'slug': self.slug
         })

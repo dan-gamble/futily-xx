@@ -1,6 +1,5 @@
 from django.core import urlresolvers
 from django.db import models
-from django.utils.text import slugify
 from jsonfield import JSONField
 
 from futily.apps.models import TimeStampedModel
@@ -150,14 +149,6 @@ class Player(TimeStampedModel, models.Model):
 
     def __unicode__(self):
         return self.common_name
-
-    def save(self, *args, **kwargs):
-        super(Player, self).save()
-
-        if not self.slug:
-            self.slug = slugify('{}-{}'.format(self.pk, normalize_unicode(self.common_name)))
-
-            self.save()
 
     def get_absolute_url(self, cached=False):
         if self.cached_url and cached:
