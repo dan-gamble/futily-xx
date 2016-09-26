@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  {% for nation in nation_list %}
+    <div>
+      <a href="{{ nation.get_absolute_url() }}">{{ nation }}</a>
+    </div>
+  {% endfor %}
+
+  {{ render_pagination(page_obj) }}
+{% endblock %}

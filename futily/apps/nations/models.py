@@ -1,12 +1,23 @@
-
-from django.core import urlresolvers
+from cms import externals, sitemaps
+from cms.apps.pages.models import ContentBase
+from cms.models import SearchMetaBase, SearchMetaBaseSearchAdapter
 from django.db import models
 from django.utils.text import slugify
 
 from futily.apps.models import AverageRatingModel, EaAsset, TimeStampedModel
 
 
-class Nation(EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
+class Nations(ContentBase):
+    classifier = 'objects'
+    urlconf = 'futily.apps.nations.urls'
+
+    def __unicode__(self):
+        return self.page.title
+
+
+class Nation(SearchMetaBase, EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
+    page = models.ForeignKey(Nations)
+
     cached_url = models.CharField(max_length=1000, null=True, blank=True)
 
     name = models.CharField(max_length=100)
@@ -34,13 +45,14 @@ class Nation(EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
         super(Nation, self).save()
 
     def get_absolute_url(self, cached=False):
-        if self.cached_url and cached:
-            return self.cached_url
+        return self.page.page.reverse('nation_detail', kwargs={
+            'slug': self.slug
+        })
 
-        url = urlresolvers.reverse('nations:nation', kwargs={'slug': self.slug})
+    def players(self):
+        return self.player_set.all().prefetch_related('club', 'league', 'nation')
 
-        if url != self.cached_url:
-            self.cached_url = url
-            self.save()
 
-        return url
+sitemaps.register(Nation)
+
+externals.watson('register', Nation, adapter_cls=SearchMetaBaseSearchAdapter)

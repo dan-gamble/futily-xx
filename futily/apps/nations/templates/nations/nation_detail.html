@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  {{ nation.name }}
+
+  {% for player in nation.players() %}
+    <div>
+      {{ player.common_name }}
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -169,11 +169,16 @@ INSTALLED_APPS = [
     'cachalot',
     'webpack_loader',
 
+    # 'debug_toolbar',
+
     'social.apps.django_app.default'
 ]
 
 if sys.version_info[0] == 3:
     INSTALLED_APPS.remove("server_management")
+
+DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.html'
+DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(?!debug_toolbar/).*"
 
 # Additional static file locations.
 
@@ -253,7 +258,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "match_extension": ".html",
-            "match_regex": r"^(?!admin/|reversion/).*",
+            "match_regex": r"^(?!admin/|reversion/|debug_toolbar/).*",
             "app_dirname": "templates",
             "newstyle_gettext": True,
             "extensions": DEFAULT_EXTENSIONS + [
