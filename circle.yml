@@ -19,3 +19,9 @@ test:
     - npm run lint:css
     - npm run lint:js
     - python manage.py test
+
+deployment:
+  staging:
+    branch: develop
+    commands:
+      - python manage.py update
