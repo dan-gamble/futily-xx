@@ -2,29 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-
-
-def create_nations(apps, schema_editor):
-    ContentType = apps.get_model('contenttypes', 'ContentType')
-    Nations = apps.get_model('nations', 'Nations')
-    Page = apps.get_model('pages', 'Page')
-
-    content_type = ContentType.objects.get_for_model(Nations)
-
-    page = Page.objects.create(
-        title='Nations', slug='nations', content_type=content_type, parent=Page.objects.get(id=1)
-    )
-
-    Nations.objects.create(page=page)
-
-
-def assign_nations(apps, schema_editor):
-    Nation = apps.get_model('nations', 'Nation')
-    Nations = apps.get_model('nations', 'Nations')
-
-    for nation in Nation.objects.all():
-        nation.page = Nations.objects.get(page__slug='nations')
-        nation.save()
+import futily.apps.nations.models
 
 
 class Migration(migrations.Migration):
@@ -34,12 +12,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # migrations.RunPython(create_nations),
         migrations.AddField(
             model_name='nation',
             name='page',
-            field=models.ForeignKey(default=9, to='nations.Nations'),
-            preserve_default=False,
+            field=models.ForeignKey(default=futily.apps.nations.models.get_default_nations_feed, to='nations.Nations', null=True),
+            preserve_default=True
         ),
-        # migrations.RunPython(assign_nations)
     ]
