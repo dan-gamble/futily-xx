@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import futily.apps.nations.models
 
 
 class Migration(migrations.Migration):
@@ -15,7 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='nation',
             name='page',
-            field=models.ForeignKey(default=futily.apps.nations.models.get_default_nations_feed, to='nations.Nations', null=True),
-            preserve_default=True
+            field=models.ForeignKey(to='nations.Nations', null=True),
         ),
     ]
