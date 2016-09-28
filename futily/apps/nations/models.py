@@ -27,8 +27,10 @@ def get_default_nations_page():
 
 def get_default_nations_feed():
     page = get_default_nations_page()
+
     if page:
         return page.content
+
     return None
 
 
