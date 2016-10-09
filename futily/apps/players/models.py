@@ -124,7 +124,7 @@ class Player(TimeStampedModel, models.Model):
     player_type = models.CharField(max_length=100, blank=True, null=True)
     item_type = models.CharField(max_length=100, blank=True, null=True)
 
-    overall_rating = models.PositiveIntegerField(blank=True, null=True)
+    rating = models.PositiveIntegerField(blank=True, null=True)
     card_att_1 = models.PositiveIntegerField(blank=True, null=True)
     card_att_2 = models.PositiveIntegerField(blank=True, null=True)
     card_att_3 = models.PositiveIntegerField(blank=True, null=True)
@@ -143,7 +143,7 @@ class Player(TimeStampedModel, models.Model):
     base_id = models.PositiveIntegerField(max_length=100, blank=True, null=True)
 
     class Meta:
-        ordering = ['-overall_rating', '-ea_id']
+        ordering = ['-rating']
         verbose_name = 'Player'
         verbose_name_plural = 'Players'
 
@@ -154,7 +154,7 @@ class Player(TimeStampedModel, models.Model):
         if self.cached_url and cached:
             return self.cached_url
 
-        url = urlresolvers.reverse('leagues:league', kwargs={'slug': self.slug})
+        url = urlresolvers.reverse('players:player', kwargs={'slug': self.slug})
 
         if url != self.cached_url:
             self.cached_url = url

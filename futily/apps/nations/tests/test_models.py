@@ -52,6 +52,9 @@ class TestViews(TestCase):
                 common_name='John Doe'
             )
 
+    def test_nations_unicode(self):
+        self.assertEqual(str(self.nations), 'Nations')
+
     def test_nation_url(self):
         self.assertEqual(self.nation.get_absolute_url(), '/england/')
 

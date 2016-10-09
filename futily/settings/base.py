@@ -265,6 +265,9 @@ TEMPLATES = [
                 "webpack_loader.contrib.jinja2ext.WebpackExtension",
                 "compressor.contrib.jinja2ext.CompressorExtension"
             ],
+            # "globals": {
+            #     "url": build_url
+            # },
             "bytecode_cache": {
                 "name": "default",
                 "backend": "django_jinja.cache.BytecodeCache",

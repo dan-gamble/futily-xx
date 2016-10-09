@@ -7,7 +7,7 @@ dependencies:
     - /home/ubuntu/nvm/versions/node/v5.1.0/bin
     - /home/ubuntu/nvm/versions/node/v5.1.0/lib/node_modules
   override:
-    - pip install --disable-pip-version-check pylint pylint-django pylint-mccabe isort
+    - pip install --disable-pip-version-check pylint pylint-django pylint-mccabe
     - pip install --disable-pip-version-check -r requirements.txt
     - npm i stylelint@6.9.0 eslint@3.2.0 eslint-config-standard@5.3.5 eslint-plugin-standard@2.0.0 eslint-plugin-html@1.5.1 babel-eslint@6.1.0 standard@7.1.2
     - npm set progress=false
@@ -15,7 +15,6 @@ dependencies:
 test:
   override:
     - pylint futily/ --load-plugins pylint_django,pylint_mccabe --ignore=migrations,tests -d missing-docstring,invalid-name,no-init,too-many-ancestors,no-member,line-too-long,attribute-defined-outside-init,too-few-public-methods,no-self-use,unused-argument,protected-access,locally-disabled,duplicate-code --reports=n
-    - isort --check-only --diff --quiet --skip-glob=.venv --skip-glob=node_modules --skip-glob=*/migrations/*
     - npm run lint:css
     - npm run lint:js
     - python manage.py test

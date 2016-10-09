@@ -79,7 +79,7 @@ class TestViews(TestCase):
                 common_name='John Doe'
             )
 
-    def test_nations_page(self):
+    def test_nations_list_view(self):
         view = default_list_view(self)
 
         self.assertEqual(view.request.pages.current.title, 'Nations')
@@ -180,6 +180,7 @@ class TestViews(TestCase):
     def test_nation_players(self):
         view = default_detail_view(self)
         view.object = self.nation_1
+        view.kwargs = {'slug': self.nation_1.slug}
         data = view.get_context_data()
 
         self.assertListEqual(list(data['nation'].players()), [self.player_1])

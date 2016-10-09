@@ -1,5 +1,6 @@
-from django.views.generic import DetailView, ListView
+from django.views.generic import ListView
 
+from ..views import EaDetailView
 from .models import Nation
 
 
@@ -23,5 +24,5 @@ class NationListView(ListView):
             return super(NationListView, self).get_paginate_by(queryset)
 
 
-class NationDetailView(DetailView):
+class NationDetailView(EaDetailView):
     model = Nation

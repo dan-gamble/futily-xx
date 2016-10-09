@@ -339,7 +339,7 @@ class Downloader(object):
                         'workrate_def': player['defWorkRate'],
                         'player_type': player['playerType'],
                         'item_type': player['itemType'],
-                        'overall_rating': player['rating'],
+                        'rating': player['rating'],
                         'card_att_1': player['attributes'][0]['value'],
                         'card_att_2': player['attributes'][1]['value'],
                         'card_att_3': player['attributes'][2]['value'],

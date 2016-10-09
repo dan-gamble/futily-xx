@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'views/detail/base.html' %}
 
 {% block main %}
   {{ nation.name }}
 
-  {% for player in nation.players() %}
+  {% for player in players %}
     <div>
-      {{ player.common_name }}
+      {{ player.common_name }} ({{ player.rating }})
     </div>
   {% endfor %}
 {% endblock %}
