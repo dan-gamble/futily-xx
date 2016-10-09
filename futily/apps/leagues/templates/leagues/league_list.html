@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  {% for league in league_list %}
+    <div>
+      <a href="{{ league.get_absolute_url() }}">{{ league }}</a>
+    </div>
+  {% endfor %}
+
+  {{ render_pagination(page_obj) }}
+{% endblock %}

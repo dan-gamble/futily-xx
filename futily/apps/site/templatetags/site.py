@@ -53,4 +53,7 @@ def url(context, *args, **kwargs):
 
         return_url += '?{}'.format(urllib.urlencode(params))
 
+    if return_url == '?':
+        return request.path
+
     return return_url

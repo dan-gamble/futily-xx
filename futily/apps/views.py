@@ -1,8 +1,8 @@
 from django.core.paginator import EmptyPage, Paginator, PageNotAnInteger
 from django.views.generic import DetailView
 
-from .players.models import Player
-from .players.utils import PLAYER_LEVEL_SCHEMA, PLAYER_POSITION_SCHEMA, PLAYER_SORT_SCHEMA
+from ..apps.players.models import Player
+from ..apps.players.utils import PLAYER_LEVEL_SCHEMA, PLAYER_POSITION_SCHEMA, PLAYER_SORT_SCHEMA
 
 
 class EaDetailView(DetailView):

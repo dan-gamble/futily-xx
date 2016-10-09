@@ -6,7 +6,7 @@ from django.conf import settings
 
 from futily.apps.clubs.models import Club
 from futily.apps.leagues.models import League
-from futily.apps.nations.models import Nation, get_default_nations_feed
+from futily.apps.nations.models import Nation
 from futily.apps.players.models import PLAYER_POSITION_LINES, Player
 from futily.utils.methods import normalize_unicode
 
@@ -61,7 +61,7 @@ class Downloader(object):
                         'image_md': nation['imageUrls']['medium'],
                         'image_lg': nation['imageUrls']['large'],
                         'image': nation['imgUrl'],
-                        'page': get_default_nations_feed()
+                        'page': None
                     }
 
                     if nation_data not in nations:

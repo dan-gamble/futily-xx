@@ -16,24 +16,6 @@ class Nations(ContentBase):
         return self.page.title
 
 
-def get_default_nations_page():
-    try:
-        return Page.objects.filter(
-            content_type=ContentType.objects.get_for_model(Nations),
-        ).order_by('left')[0]
-    except IndexError:
-        return None
-
-
-def get_default_nations_feed():
-    page = get_default_nations_page()
-
-    if page:
-        return page.content
-
-    return None
-
-
 class Nation(SearchMetaBase, EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
     page = models.ForeignKey(Nations, null=True, blank=False)
 
@@ -67,9 +49,6 @@ class Nation(SearchMetaBase, EaAsset, TimeStampedModel, AverageRatingModel, mode
         return self.page.page.reverse('nation_detail', kwargs={
             'slug': self.slug
         })
-
-    def players(self):
-        return self.player_set.all().prefetch_related('club', 'league', 'nation')
 
 
 sitemaps.register(Nation)

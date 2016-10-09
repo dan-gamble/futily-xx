@@ -1,4 +1,7 @@
-from django.core import urlresolvers
+from cms import externals, sitemaps
+from cms.apps.pages.models import ContentBase, Page
+from cms.models import SearchMetaBase, SearchMetaBaseSearchAdapter
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.text import slugify
 
@@ -6,7 +9,17 @@ from futily.apps.models import AverageRatingModel, EaAsset, TimeStampedModel
 from ..nations.models import Nation
 
 
-class League(EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
+class Leagues(ContentBase):
+    classifier = 'objects'
+    urlconf = 'futily.apps.leagues.urls'
+
+    def __unicode__(self):
+        return self.page.title
+
+
+class League(SearchMetaBase, EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
+    page = models.ForeignKey(Leagues, null=True, blank=False)
+
     cached_url = models.CharField(max_length=1000, null=True, blank=True)
 
     name = models.CharField(max_length=100)
@@ -29,14 +42,15 @@ class League(EaAsset, TimeStampedModel, AverageRatingModel, models.Model):
 
         super(League, self).save()
 
-    def get_absolute_url(self, cached=False):
-        if self.cached_url and cached:
-            return self.cached_url
+    def get_absolute_url(self):
+        return self.page.page.reverse('league_detail', kwargs={
+            'slug': self.slug
+        })
 
-        url = urlresolvers.reverse('leagues:league', kwargs={'slug': self.slug})
+    def clubs(self):
+        return self.club_set.all()
 
-        if url != self.cached_url:
-            self.cached_url = url
-            self.save()
 
-        return url
+sitemaps.register(League)
+
+externals.watson('register', League, adapter_cls=SearchMetaBaseSearchAdapter)

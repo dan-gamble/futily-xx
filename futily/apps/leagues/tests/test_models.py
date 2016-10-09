@@ -4,12 +4,13 @@ from django.contrib.contenttypes.models import ContentType
 from django.test import RequestFactory, TestCase
 from django.views.generic import ListView
 
+from ...clubs.models import Club
 from ...players.models import Player
-from ..models import Nation, Nations
+from ..models import League, Leagues
 
 
 class TestView(ListView):
-    model = Nation
+    model = League
 
 
 class TestViews(TestCase):
@@ -17,24 +18,32 @@ class TestViews(TestCase):
         self.factory = RequestFactory()
 
         with externals.watson.context_manager('update_index')():
-            content_type = ContentType.objects.get_for_model(Nations)
+            content_type = ContentType.objects.get_for_model(Leagues)
 
             self.page = Page.objects.create(
-                title='Nations',
-                slug='nations',
+                title='Leagues',
+                slug='leagues',
                 content_type=content_type
             )
 
-            self.nations = Nations.objects.create(
+            self.leagues = Leagues.objects.create(
                 page=self.page
             )
 
-            self.nation = Nation.objects.create(
-                page=self.nations,
+            self.league = League.objects.create(
+                page=self.leagues,
                 ea_id=1,
                 name='England',
                 name_abbr='England',
                 slug='england'
+            )
+
+            self.club = Club.objects.create(
+                ea_id=1,
+                name='Club',
+                name_abbr='Club',
+                slug='club',
+                league=self.league
             )
 
             self.player_1 = Player.objects.create(
@@ -42,7 +51,7 @@ class TestViews(TestCase):
                 first_name='Dan',
                 last_name='Gamble',
                 common_name='Dan Gamble',
-                nation=self.nation
+                league=self.league
             )
 
             self.player_2 = Player.objects.create(
@@ -53,10 +62,13 @@ class TestViews(TestCase):
             )
 
     def test_unicode(self):
-        self.assertEqual(str(self.nations), 'Nations')
+        self.assertEqual(str(self.leagues), 'Leagues')
 
     def test_absolute_url(self):
-        self.assertEqual(self.nation.get_absolute_url(), '/england/')
+        self.assertEqual(self.league.get_absolute_url(), '/england/')
 
     def test_players(self):
-        self.assertEqual(list(self.nation.players()), [self.player_1])
+        self.assertEqual(list(self.league.players()), [self.player_1])
+
+    def test_clubs(self):
+        self.assertEqual(list(self.league.clubs()), [self.club])

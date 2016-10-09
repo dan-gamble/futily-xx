@@ -5,15 +5,15 @@ from django.contrib.contenttypes.models import ContentType
 from django.test import RequestFactory, TestCase
 
 from ...players.models import Player
-from ..models import Nation, Nations
-from ..views import NationDetailView, NationListView
+from ..models import League, Leagues
+from ..views import LeagueDetailView, LeagueListView
 
 
-class TestListView(NationListView):
+class TestListView(LeagueListView):
     pass
 
 
-class TestDetailView(NationDetailView):
+class TestDetailView(LeagueDetailView):
     pass
 
 
@@ -22,20 +22,20 @@ class TestViews(TestCase):
         self.factory = RequestFactory()
 
         with externals.watson.context_manager('update_index')():
-            content_type = ContentType.objects.get_for_model(Nations)
+            content_type = ContentType.objects.get_for_model(Leagues)
 
             self.page = Page.objects.create(
-                title='Nations',
-                slug='nations',
+                title='Leagues',
+                slug='leagues',
                 content_type=content_type
             )
 
-            self.nations = Nations.objects.create(
+            self.leagues = Leagues.objects.create(
                 page=self.page
             )
 
-            self.nation_1 = Nation.objects.create(
-                page=self.nations,
+            self.league_1 = League.objects.create(
+                page=self.leagues,
                 ea_id=1,
                 name='England',
                 name_abbr='England',
@@ -49,8 +49,8 @@ class TestViews(TestCase):
                 total_special=10
             )
 
-            self.nation_2 = Nation.objects.create(
-                page=self.nations,
+            self.league_2 = League.objects.create(
+                page=self.leagues,
                 ea_id=2,
                 name='France',
                 name_abbr='France',
@@ -69,7 +69,7 @@ class TestViews(TestCase):
                 first_name='Dan',
                 last_name='Gamble',
                 common_name='Dan Gamble',
-                nation=self.nation_1
+                league=self.league_1
             )
 
             self.player_2 = Player.objects.create(
@@ -82,7 +82,7 @@ class TestViews(TestCase):
     def test_list_view(self):
         view = default_list_view(self)
 
-        self.assertEqual(view.request.pages.current.title, 'Nations')
+        self.assertEqual(view.request.pages.current.title, 'Leagues')
 
     def test_get_paginate_by(self):
         view = default_list_view(self)
@@ -93,17 +93,17 @@ class TestViews(TestCase):
         view = default_list_view(self)
         data = view.get_context_data()
 
-        self.assertEqual(list(data['object_list']), [self.nation_1, self.nation_2])
+        self.assertEqual(list(data['object_list']), [self.league_1, self.league_2])
 
         view = default_list_view(self, 1)
         data = view.get_context_data()
 
-        self.assertEqual(list(data['object_list']), [self.nation_1])
+        self.assertEqual(list(data['object_list']), [self.league_1])
 
     def test_get_queryset(self):
         view = default_list_view(self)
 
-        self.assertListEqual(list(view.get_queryset()), [self.nation_1, self.nation_2])
+        self.assertListEqual(list(view.get_queryset()), [self.league_1, self.league_2])
 
     def test_get_parameters(self):
         # Per page
@@ -111,26 +111,26 @@ class TestViews(TestCase):
         data = view.get_context_data()
 
         self.assertFalse(data['is_paginated'])
-        self.assertListEqual(list(data['object_list']), [self.nation_1, self.nation_2])
+        self.assertListEqual(list(data['object_list']), [self.league_1, self.league_2])
 
         view = TestListView()
         view.request = self.factory.get('/', data={
             'per_page': 1
         })
         view.request.pages = RequestPageManager(view.request)
-        view.object_list = Nation.objects.all()
+        view.object_list = League.objects.all()
         view.kwargs = {}
 
         data = view.get_context_data()
 
         self.assertTrue(data['is_paginated'])
-        self.assertEqual(list(data['object_list']), [self.nation_1])
+        self.assertEqual(list(data['object_list']), [self.league_1])
 
         # Order by
         view = default_list_view(self)
         data = view.get_context_data()
 
-        self.assertEqual(list(data['object_list']), [self.nation_1, self.nation_2])
+        self.assertEqual(list(data['object_list']), [self.league_1, self.league_2])
 
         view_average_rating = default_list_view(self, data={'order_by': 'average_rating'})
         view_naverage_rating = default_list_view(self, data={'order_by': '-average_rating'})
@@ -162,31 +162,31 @@ class TestViews(TestCase):
         data_total_special = view_total_special.get_context_data()
         data_ntotal_special = view_ntotal_special.get_context_data()
 
-        self.assertListEqual(list(data_average_rating['object_list']), [self.nation_2, self.nation_1])
-        self.assertListEqual(list(data_naverage_rating['object_list']), [self.nation_1, self.nation_2])
-        self.assertListEqual(list(data_total_players['object_list']), [self.nation_2, self.nation_1])
-        self.assertListEqual(list(data_ntotal_players['object_list']), [self.nation_1, self.nation_2])
-        self.assertListEqual(list(data_total_bronze['object_list']), [self.nation_2, self.nation_1])
-        self.assertListEqual(list(data_ntotal_bronze['object_list']), [self.nation_1, self.nation_2])
-        self.assertListEqual(list(data_total_silver['object_list']), [self.nation_2, self.nation_1])
-        self.assertListEqual(list(data_ntotal_silver['object_list']), [self.nation_1, self.nation_2])
-        self.assertListEqual(list(data_total_gold['object_list']), [self.nation_2, self.nation_1])
-        self.assertListEqual(list(data_ntotal_gold['object_list']), [self.nation_1, self.nation_2])
-        self.assertListEqual(list(data_total_inform['object_list']), [self.nation_2, self.nation_1])
-        self.assertListEqual(list(data_ntotal_inform['object_list']), [self.nation_1, self.nation_2])
-        self.assertListEqual(list(data_total_special['object_list']), [self.nation_2, self.nation_1])
-        self.assertListEqual(list(data_ntotal_special['object_list']), [self.nation_1, self.nation_2])
+        self.assertListEqual(list(data_average_rating['object_list']), [self.league_2, self.league_1])
+        self.assertListEqual(list(data_naverage_rating['object_list']), [self.league_1, self.league_2])
+        self.assertListEqual(list(data_total_players['object_list']), [self.league_2, self.league_1])
+        self.assertListEqual(list(data_ntotal_players['object_list']), [self.league_1, self.league_2])
+        self.assertListEqual(list(data_total_bronze['object_list']), [self.league_2, self.league_1])
+        self.assertListEqual(list(data_ntotal_bronze['object_list']), [self.league_1, self.league_2])
+        self.assertListEqual(list(data_total_silver['object_list']), [self.league_2, self.league_1])
+        self.assertListEqual(list(data_ntotal_silver['object_list']), [self.league_1, self.league_2])
+        self.assertListEqual(list(data_total_gold['object_list']), [self.league_2, self.league_1])
+        self.assertListEqual(list(data_ntotal_gold['object_list']), [self.league_1, self.league_2])
+        self.assertListEqual(list(data_total_inform['object_list']), [self.league_2, self.league_1])
+        self.assertListEqual(list(data_ntotal_inform['object_list']), [self.league_1, self.league_2])
+        self.assertListEqual(list(data_total_special['object_list']), [self.league_2, self.league_1])
+        self.assertListEqual(list(data_ntotal_special['object_list']), [self.league_1, self.league_2])
 
     def test_detail_players(self):
         view = default_detail_view(self)
-        view.object = self.nation_1
-        view.kwargs = {'slug': self.nation_1.slug}
+        view.object = self.league_1
+        view.kwargs = {'slug': self.league_1.slug}
         data = view.get_context_data()
 
-        self.assertListEqual(list(data['nation'].players()), [self.player_1])
+        self.assertListEqual(list(data['league'].players()), [self.player_1])
 
 
-def default_list_view(obj, paginate_by=NationListView.paginate_by, data=None):
+def default_list_view(obj, paginate_by=LeagueListView.paginate_by, data=None):
     if data is None:
         data = {}
 

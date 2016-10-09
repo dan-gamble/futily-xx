@@ -1,0 +1,14 @@
+{% extends 'views/detail/base.html' %}
+
+{% block og_title %}{{ league }}{% endblock %}
+{% block twitter_title %}{{ league }}{% endblock %}
+
+{% block main %}
+  {{ league.name }}
+
+  {% for player in players %}
+    <div>
+      {{ player.common_name }} ({{ player.rating }})
+    </div>
+  {% endfor %}
+{% endblock %}

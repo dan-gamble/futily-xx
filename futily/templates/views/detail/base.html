@@ -6,7 +6,11 @@
     Positions:
 
     {% for position in positions %}
-      <a href="{{ url(get={'pos': position}) }}">{{ position }}</a>
+      {% if request.GET.pos %}
+        <a href="{{ url(remove=['pos']) }}">{{ position }}</a>
+      {% else %}
+        <a href="{{ url(get={'pos': position}) }}">{{ position }}</a>
+      {% endif %}
     {% endfor %}
   </div>
 
@@ -15,7 +19,11 @@
     Level:
 
     {% for level in levels %}
-      <a href="{{ url(get={'lvl': level}) }}">{{ level }}</a>
+      {% if request.GET.lvl %}
+        <a href="{{ url(remove=['lvl']) }}">{{ level }}</a>
+      {% else %}
+        <a href="{{ url(get={'lvl': level}) }}">{{ level }}</a>
+      {% endif %}
     {% endfor %}
   </div>
 

@@ -19,6 +19,9 @@ class EaAsset(models.Model):
     def normalized_name(self):
         return normalize_unicode(self.name)
 
+    def players(self):
+        return self.player_set.all().prefetch_related('club', 'league', 'nation')
+
 
 class AverageRatingModel(models.Model):
     average_rating = models.FloatField(default=0)
