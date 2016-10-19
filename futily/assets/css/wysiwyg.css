@@ -4,6 +4,7 @@
 @import 'helpers/define.css';
 @import 'helpers/mixins/**/*.css';
 
+/* We are targetting the admin's iframe */
 /* stylelint-disable selector-no-type */
 body {
   @import 'wysiwyg/wysiwyg.css';

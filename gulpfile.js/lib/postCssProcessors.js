@@ -4,7 +4,6 @@ module.exports = [
   require('postcss-import')({
     glob: true
   }),
-  require('postcss-sassy-mixins'),
   require('postcss-conditionals'),
   require('postcss-apply'),
   require('postcss-nested'),
@@ -12,7 +11,6 @@ module.exports = [
     glob: path.join(__dirname, '../../futily', 'assets', 'css', 'functions', '*.js')
   }),
 
-  require('postcss-custom-properties'),
   require('postcss-custom-media'),
   require('postcss-media-minmax'),
   require('postcss-custom-selectors'),

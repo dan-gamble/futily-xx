@@ -1,3 +1,5 @@
+/* We use an order that is beneficial for a 'settings' file */
+/* stylelint-disable plugin/declaration-block-order */
 :root {
   /**
   * Colors
@@ -15,11 +17,12 @@
   /**
   * Font - Sizes
   */
-  --VerticalRhythmBaseline: 12px;
-
-  --Font_Size-16: 16px;
-  --Letter_Spacing-16: 0;
-  --Line_Height-16: vrb(2);
+  /* letter-spacing: calc(${100}em / 1000) ${} = number in photoshop */
+  --Font-16: {
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 1vr;
+  };
 
   /**
   * Grid
@@ -27,6 +30,55 @@
   --Grid_Constrained: 1600px;
   --Grid_Container: 1240px;
   --Grid_Gutter: 15px;
+
+  --GridContainer: {
+    /* Add --Grid_Gutter to the container as the 'container' should be the size
+       of the content not the actual div */
+    max-width: calc(var(--Grid_Container) + (var(--Grid_Gutter) * 2));
+    width: 100%;
+    margin-right: auto;
+    margin-left: @margin-right;
+    padding-right: calc(var(--Grid_Gutter) * 2);
+    padding-left: @padding-right;
+  };
+
+  --GridRow: {
+    display: flex;
+    margin-right: -var(--Grid_Gutter);
+    margin-left: @margin-right;
+  };
+
+  --GridColumn: {
+    margin-right: var(--Grid_Gutter);
+    margin-left: @margin-right;
+  };
+
+  /**
+  * Buttons
+  */
+  --Button-base: {
+    display: inline-block;
+    padding: 0.5vr var(--Grid_Gutter);
+
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: #fff;
+
+    /* Style reasons */
+    /* stylelint-disable */
+    transition: background-color var(--Global_Transition),
+                border var(--Global_Transition),
+                color var(--Global_Transition);
+    /* stylelint-enable */
+  };
+
+  --Button-primary: {
+    background-color: transparent;
+  };
+
+  --Button-secondary: {
+    background-color: transparent;
+  };
 
   /**
   * Misc
@@ -38,3 +90,4 @@
 
   cursor: auto;
 }
+/* stylelint-enable */

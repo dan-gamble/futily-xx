@@ -23,29 +23,11 @@
 }
 
 /*
-.lyt-Content_Outer {
-
-}
-
-.lyt-Content {
-
-}
-
-.lyt-Main {
-
-}
-
-.lyt-Aside {
-
-}
-*/
-
-/*
 |--------------------------------------------------------------------------
 | Container
 |--------------------------------------------------------------------------
 |
 */
 .lyt-Container {
-  @include Grid_Container();
+  @apply --GridContainer;
 }
