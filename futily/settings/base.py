@@ -164,6 +164,8 @@ INSTALLED_APPS = [
     "futily.apps.sections",
     "futily.apps.site",
 
+    'rest_framework',
+    'django_filters',
     'server_management',
     'django_extensions',
     'cachalot',
@@ -441,6 +443,15 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/admin/'
 SOCIAL_AUTH_PIPELINE = DEFAULT_AUTH_PIPELINE + (
     'cms.pipeline.make_staff',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'futily.drf.CustomPagination',
+    'PAGE_SIZE': 100,
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}
 
 SILENCED_SYSTEM_CHECKS = []
 

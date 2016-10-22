@@ -1,7 +1,6 @@
 from cms import externals, sitemaps
-from cms.apps.pages.models import ContentBase, Page
+from cms.apps.pages.models import ContentBase
 from cms.models import SearchMetaBase, SearchMetaBaseSearchAdapter
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.text import slugify
 

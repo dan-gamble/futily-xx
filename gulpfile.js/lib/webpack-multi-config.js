@@ -105,6 +105,14 @@ module.exports = function(env) {
       publicPath: publicPath
     }
 
+    webpackConfig.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': JSON.stringify('development')
+        }
+      })
+    )
+
     if(config.tasks.js.extractSharedJs) {
       // Factor out common dependencies into a shared.js
       webpackConfig.plugins.push(

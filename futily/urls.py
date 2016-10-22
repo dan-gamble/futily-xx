@@ -8,12 +8,16 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import generic
+from rest_framework.routers import DefaultRouter
 
+from .apps.players.views import PlayerViewSet
 from .apps.sections.models import sections_js
 from .utils.views import FrontendView
 
 admin.autodiscover()
 
+router = DefaultRouter()
+router.register(r'players', PlayerViewSet)
 
 urlpatterns = [
 
@@ -24,6 +28,9 @@ urlpatterns = [
     url(r"^admin/", include(admin.site.urls)),
     url(r'^admin/', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/pages/page/sections.js$', sections_js, name="admin_sections_js"),
+
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # Permalink redirection service.
     url(r"^r/(?P<content_type_id>\d+)-(?P<object_id>[^/]+)/$", "django.contrib.contenttypes.views.shortcut", name="permalink_redirect"),
