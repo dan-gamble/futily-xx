@@ -1,9 +1,11 @@
 import Vue from 'vue'
+import VueDragula from 'vue-dragula'
 import VueResource from 'vue-resource'
 
 import components from './components'
 import store from './store'
 
+Vue.use(VueDragula)
 Vue.use(VueResource)
 
 export default {

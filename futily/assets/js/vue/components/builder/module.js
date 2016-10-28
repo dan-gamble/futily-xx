@@ -4,7 +4,7 @@ import * as types from './types'
 import { goodChem, weakChem } from './utils/chemPosition'
 import positionLinks from './utils/positionLinks'
 import positionMap from './utils/positionMap'
-import { FORMATIONS, LEGENDS_LEAGUE_ID } from './utils/constants'
+import { FORMATIONS, POSITION_LINES, LEGENDS_LEAGUE_ID } from './utils/constants'
 
 const state = {
   // Object order isn't guaranteed so we'll store them as nested arrays
@@ -17,16 +17,6 @@ const state = {
   selectedFormation: '352',
   searchTerm: '',
 
-  // Averages
-  chem: 0,
-  ovr: 0,
-  pac: 0,
-  sho: 0,
-  pas: 0,
-  dri: 0,
-  def: 0,
-  phy: 0,
-
   // Prices
   xbox: 0,
   playstation: 0,
@@ -35,129 +25,140 @@ const state = {
   filledPlayers: [],
 
   // Players
-  players: {
-    0: {
+  players: [
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    1: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    2: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    3: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    4: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    5: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    6: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    7: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    8: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    9: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     },
-    10: {
+    {
       chemistry: {
         links: 0,
         position: 0,
-        boost: 0
+        boost: 0,
+        total: 0
       },
       player: {},
       position: '',
       links: [],
       filledLinks: []
     }
-  }
+  ]
 }
 
 const mutations = {
@@ -167,6 +168,10 @@ const mutations = {
 
   [types.UPDATE_FORMATION] (state, { formation }) {
     state.selectedFormation = formation
+  },
+
+  [types.UPDATE_NAME] (state, { name }) {
+    state.name = name
   },
 
   [types.UPDATE_PLAYERS_POSITIONS] (state, { formation }) {
@@ -208,9 +213,11 @@ const mutations = {
 
     if (playerPosition === player.position) {
       player.chemistry.position = positionChemSchema.strong
-    } else if (goodChem[ player.position ].includes(playerPosition)) {
+    } else if (goodChem.hasOwnProperty(player.position) &&
+               goodChem[ player.position ].includes(playerPosition)) {
       player.chemistry.position = positionChemSchema.good
-    } else if (weakChem[ player.position ].includes(playerPosition)) {
+    } else if (weakChem.hasOwnProperty(player.position) &&
+               weakChem[ player.position ].includes(playerPosition)) {
       player.chemistry.position = positionChemSchema.weak
     } else {
       player.chemistry.position = positionChemSchema.poor
@@ -267,6 +274,9 @@ const mutations = {
     const manager = 0
     const loyalty = 0
     player.chemistry.boost = manager + loyalty
+
+    const roundedChem = Math.round(player.chemistry.links * player.chemistry.position)
+    player.chemistry.total = Math.min(10, roundedChem + player.chemistry.boost)
   }
 }
 
@@ -279,6 +289,7 @@ const actions = {
 
   [types.UPDATE_PLAYER_PLAYER] ({ commit, state }, { player, index }) {
     console.time()
+    console.log(player, index)
     commit(types.UPDATE_PLAYER_PLAYER, { player, index })
 
     const filledPlayers = linkedPlayers(state, index)
@@ -295,8 +306,38 @@ const actions = {
 }
 
 const getters = {
+  averageRating: (state) => getAverage(state, 'rating', false),
+
+  averageDef: (state) => getAverage(state, 'rating', false, POSITION_LINES.DEF),
+
+  averageMid: (state) => getAverage(state, 'rating', false, POSITION_LINES.MID),
+
+  averageAtt: (state) => getAverage(state, 'rating', false, POSITION_LINES.ATT),
+
+  averagePace: (state) => getAverage(state, 'card_att_1', true),
+
+  averageShooting: (state) => getAverage(state, 'card_att_2', true),
+
+  averagePassing: (state) => getAverage(state, 'card_att_3', true),
+
+  averageDribbling: (state) => getAverage(state, 'card_att_4', true),
+
+  averageDefending: (state) => getAverage(state, 'card_att_5', true),
+
+  averagePhysical: (state) => getAverage(state, 'card_att_6', true),
+
   builder (state) {
     return state
+  },
+
+  overallChem (state) {
+    let total = 0
+
+    for (const player in state.players) {
+      total += state.players[player].chemistry.total
+    }
+
+    return total
   },
 
   players (state) {
@@ -305,6 +346,20 @@ const getters = {
 
   selectedFormation (state) {
     return state.selectedFormation
+  },
+
+  starRating (state, getters) {
+    if (getters.averageRating > 82) return '5'
+    else if (getters.averageRating > 78) return '4.5'
+    else if (getters.averageRating > 74) return '4'
+    else if (getters.averageRating > 70) return '3.5'
+    else if (getters.averageRating > 68) return '3'
+    else if (getters.averageRating > 66) return '2.5'
+    else if (getters.averageRating > 64) return '2'
+    else if (getters.averageRating > 62) return '1.5'
+    else if (getters.averageRating > 59) return '1'
+    else if (getters.averageRating > 1) return '0.5'
+    else return '0'
   }
 }
 
@@ -319,4 +374,23 @@ function linkedPlayers (state, index) {
   const playerObj = state.players[ index ]
 
   return playerObj.links.filter(index => state.filledPlayers.includes(index))
+}
+
+function filledPlayers (state, line = [], excludeGk = false) {
+  const players = []
+
+  for (const player in state.players) {
+    if ((excludeGk && Number(player) === 0) ||
+        (line.length && !line.includes(state.players[player].position))) continue
+
+    if (!_.isEmpty(state.players[player].player)) players.push(state.players[player])
+  }
+
+  return players
+}
+
+function getAverage (state, attribute, excludeGk, line) {
+  const players = filledPlayers(state, line, excludeGk).map(player => player.player[attribute])
+
+  return players.length ? Math.round(players.reduce((a, b) => a + b) / players.length) : 0
 }

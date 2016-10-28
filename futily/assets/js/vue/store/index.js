@@ -31,19 +31,23 @@ store.watch(() => store.getters.selectedFormation, (val) => {
   }
 })
 
-store.watch(() => store.getters.players, (val) => {
-  /**
-   * We want to know if the builder has players for when we change formation
-   *
-   * If we have players we'll need to recalculate chemistry
-   */
-  const hasPlayers = Object.keys(val).filter(index => {
-    return !_.isEmpty(val[index].player)
-  })
-
-  store.commit(builderTypes.UPDATE_HAS_PLAYERS, { bool: Boolean(hasPlayers.length) })
-}, {
-  deep: true
-})
+// store.watch(() => store.getters.players, (val) => {
+//   /**
+//    * We want to know if the builder has players for when we change formation
+//    *
+//    * If we have players we'll need to recalculate chemistry
+//    */
+//   const hasPlayers = Object.keys(val).filter(index => {
+//     return !_.isEmpty(val[index].player)
+//   })
+//
+//   store.commit(builderTypes.UPDATE_HAS_PLAYERS, { bool: Boolean(hasPlayers.length) })
+//
+//   // for (const [index, player] of val.entries()) {
+//   //   store.dispatch(builderTypes.UPDATE_PLAYERS_PLAYER, { player: player.player, index })
+//   // }
+// }, {
+//   deep: true
+// })
 
 export default store

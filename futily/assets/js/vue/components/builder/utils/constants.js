@@ -26,4 +26,10 @@ export const FORMATIONS = {
   '532': '532'
 }
 
+export const POSITION_LINES = {
+  DEF: [ 'CB', 'LWB', 'LB', 'RWB', 'RB', 'GK' ],
+  MID: [ 'CAM', 'CM', 'CDM', 'LM', 'RM' ],
+  ATT: [ 'ST', 'CF', 'LW', 'LF', 'RW', 'RF' ]
+}
+
 export const LEGENDS_LEAGUE_ID = 2118
